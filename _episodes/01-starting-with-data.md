@@ -16,7 +16,7 @@ objectives:
 
 ## Pandas Built-in Formats
 
-Pandas provides a variety of tools for reading textual and binary file formats. For textual formats, the most common of these are:
+Pandas provides a variety of tools for reading and writing textual and binary file formats. For textual formats, the most common of these are:
 
 <table border="1">
 <tbody>
@@ -48,7 +48,7 @@ df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
 </tbody>
 </table>
 
-Pandas also supports reading from a variety of binary data formats, including:
+Pandas also supports reading and writing a variety of binary data formats, including:
 
 <table border="1">
 <tbody>
@@ -170,16 +170,17 @@ The additional bits of metadata would be stored as netCDF attributes. Attributes
 
 ### netCDF4
 
-Although there are a number of packages for reading NetCDF files, we will just be working with netcdf4-python for this tutorial.
+Although there are a number of packages for reading NetCDF files, we will just be working with `netcdf4-python` for this tutorial.
 
 #### Opening a file
 
 To open a netCDF file from python, you simply call the Dataset() constructor as follows:
 
-> from netCDF4 import Dataset 
-> dataset = Dataset('data.nc')
-> print(dataset.file_format)
-{: .python}
+```python
+from netCDF4 import Dataset 
+dataset = Dataset('data.nc')
+print(dataset.file_format)
+```
 
 #### Working with "Classic" NetCDF
 
@@ -192,86 +193,98 @@ The "classic" data model is made up of dimensions, variables and attributes only
 
 You can interrogate dimensions using simple dictionary calls:
 
-> print(dataset.dimensions.keys())
-> print(dataset.dimensions['time'])
-{: .python}
+```python
+print(dataset.dimensions.keys())
+print(dataset.dimensions['time'])
+```
 
 This would result in the output:
 
-> ['time', 'latitude', 'bound', 'longitude'])
-> <type 'netCDF4.Dimension'> (unlimited):
->     name = 'time', size = 1
-{: .output}
+```
+['time', 'latitude', 'bound', 'longitude'])
+<type 'netCDF4.Dimension'> (unlimited):
+    name = 'time', size = 1
+```
 
 #### Interrogating Variables
 
 You can interrogate variables using simple dictionary calls:
 
-> for key in dataset.variables.keys():
->   var = dataset.variables[key]
->   print("name =", key)
-{: .python}
+```python
+for key in dataset.variables.keys():
+  var = dataset.variables[key]
+  print("name =", key)
+```
 
 This would result in the output:
-> name = tcc
-> name = time
-> name = latitude
-> name = longitude
-{: .output}
+
+```
+name = tcc
+name = time
+name = latitude
+name = longitude
+```
 
 Notice that you can access a variable by its key:
 
-> var = dataset.variables['tcc']
-> print(" dims =", var.dimensions)
-> print(" shape =", var.shape)
-> print(" size =", var.size)
-> print(" ndim =", var.ndim)
-> print(" datatype =", var.datatype){: .python}
+```python
+var = dataset.variables['tcc']
+print(" dims =", var.dimensions)
+print(" shape =", var.shape)
+print(" size =", var.size)
+print(" ndim =", var.ndim)
+print(" datatype =", var.datatype){: .python}
+```
 
 Which would result in:
 
-> dims = ('time', 'latitude', 'longitude')
-> shape = (1, 181, 360)
-> size = 65160
-> ndim = 3
-> datatype = float32 tcc(
-{: .output}
+```
+dims = ('time', 'latitude', 'longitude')
+shape = (1, 181, 360)
+size = 65160
+ndim = 3
+datatype = float32
+```
 
 #### Global Attributes
 
 Global attributes are available as attributes of the python dataset instance:
 
-> # Find all NetCDF global attributes
-> print(dataset.ncattrs())
-> for attr in dataset.ncattrs():
->     print(attr, '=', getattr(dataset, attr))
-{: .python}
+```python
+# Find all NetCDF global attributes
+print(dataset.ncattrs())
+for attr in dataset.ncattrs():
+    print(attr, '=', getattr(dataset, attr))
+```
 
 Results in:
 
-> ['Conventions', 'history']
-> Conventions = CF-1.0
-> history = Written in a hurry on a Tuesday!
-{: .output}
+```
+['Conventions', 'history']
+Conventions = CF-1.0
+history = Written in a hurry on a Tuesday!
+```
 
 #### Variable Attributes
 
 Variable attributes are available as attributes of the python variable instance:
 
-> var = dataset.variables['windspeed']
+```python
+var = dataset.variables['windspeed']
 # Get units attribute
-> print(var.units)
-> # Find all variable attributes
-> for attr in var.ncattrs():
->     print(attr, '=', getattr(var, attr))
-{: .python}
+print(var.units)
+# Find all variable attributes
+for attr in var.ncattrs():
+    print(attr, '=', getattr(var, attr))
+```
 
 Results in:
 
-> m/s
-> long_name = Wind speed
-> Units = m/s
-{: .output}
+```
+m/s
+long_name = Wind speed
+Units = m/s
+```
 
 > ## Challenge
 > Write a Python script to open the CIMP5 global emissions dataset. Call the script `load_data.py`. Use your knowledge of netCDF4 to answer

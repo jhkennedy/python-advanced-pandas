@@ -10,8 +10,8 @@ objectives:
 
 # Using NetCDF with Pandas
 
-In the last module, we wrote a simple Python program to load the NetCDF data and print some useful information about it. An example script is
-available [here](../code/load_data_01.py). We also saw that the data is accessible as NumPy arrays. However, it would be much more useful
+In the last module, we wrote a simple Python program to load the NetCDF data and print some useful information about it. An example of what this
+script might look like is available [here](../code/load_data_01.py). We also saw that the data is accessible as NumPy arrays. However, it would be much more useful
 if we could store the data as Pandas DataFrames so that we get the benefit of Pandas features for manipulating the data.
 
 One problem we have with the emissions data is that it is stored as a 3-dimensional array, a "time" dimension containing the month since
@@ -36,7 +36,7 @@ earnings = np.array([370.72, 613.96, 98.17, 616.04, 575.00, 266.93, 243.11,
 
 With the data stored this way, it is not easy to answer a question like "what are the mean weekly earnings each month?".
 
-Let's instead create a list ofn pairs of month labels and the dates of all the Friday's of the first quarter as follows:
+Let's instead create a list of pairs of month labels and the dates of all the Friday's of the first quarter as follows:
 
 ```python
 month_labels = ['Jan'] * 4, ['Feb'] * 4, ['Mar'] * 5
@@ -81,14 +81,14 @@ Mar    3       349.54
 dtype: float64
 ```
 
-Notice that Pandas only displays the index labels if they are not repeated. Also, we gave each level of the index a name ("Month" and "Date). Although
+Notice that Pandas only displays the index labels if they are not repeated. Also, we gave each level of the index a name ("Month" and "Date"). Although
 this is not necessary, it allows the index levels to be manipulated using the names.
 
 Now we can easily answer the question "what are the mean weekly earnings each month?" as follows:
 
 ```python
 for month in ['Jan', 'Feb', 'Mar']:
-	print('Earnings in ' + month + ' were', first_quarter_earnings[month].mean())
+  print('Earnings in ' + month + ' were', first_quarter_earnings[month].mean())
 ```
 
 Which results in:
@@ -110,3 +110,38 @@ Earnings in Mar were 668.548
 > 5. Generate a plot of the first quarter earnings using the plot method associated with `Series`.
 {: .challenge}
 
+## Creating a MultiIndex
+
+We saw that it is possible to create a `MultiIndex` by providing a list of all the combinations of labels that we want to use. This can become
+very tedious when there are large numbers of labels at each level, or multiple levels of hierarchy. One possible way to overcome this is to
+use a package such as [`itertools`](https://docs.python.org/3/library/itertools.html), which provides methods for generating combinations of elements from lists.
+
+Another approach is to use the `MultiIndex.from_product()` method which will generate an index by combining every element from a list of
+two or more iterables. For example, suppose we wanted to create a two-level index where the first labels are taken from a NumPy array. 
+We could do this in one statement as follows:
+
+```python
+latitude = np.array([-86.5, -85.5, -84.5, -83.5, -82.5, -81.5])
+longitude = np.array([-105.5, -104.5, -103.5, -102.5, -101.5, -100.5])
+multi_index = pd.MultiIndex.from_product([latitude, longitude], names=['Latitude', 'Longitude'])
+print(multi_index)
+```
+
+This would generate the required `MultiIndex` and the output:
+
+```
+MultiIndex(levels=[[-86.5, -85.5, -84.5, -83.5, -82.5, -81.5], [-105.5, -104.5, -103.5, -102.5, -101.5, -100.5]],
+           labels=[[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5], [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]],
+           names=['Latitude', 'Longitude'])
+```
+
+> ## Challenge
+>
+> In the case of our CIMP5 global emissions data, we would like to create a `MultiIndex` that has three levels, one for each dimension of the array, namely
+> "time_counter", "latitude", and "longitude". We can obtain the values for the labels from the corresponding variables in the dataset.
+>
+> Modify the `load_data.py` script so that:
+>
+> 1. It generates a `MultiIndex` from the "time_counter", "latitude", and "longitude" variables.
+> 2. It creates a `Series` called `ff_pd` using the `MultiIndex` and the data from the 'FF' variable.
+{: .challenge}

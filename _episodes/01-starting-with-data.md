@@ -26,24 +26,24 @@ Pandas provides a variety of tools for reading textual and binary file formats. 
 </tr>
 <tr>
 <td><a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a></td>
-<td><pre><code>
+<td><pre>
 import pandas as pd
 df = pd.read_csv(filename, delimiter, header, ...)
-</code></pre></td>
+</pre></td>
 </tr>
 <tr>
 <td><a href="http://www.json.org/">JSON</a></td>
-<td><pre><code>
+<td><pre>
 import pandas as pd
 df = pd.read_json('https://api.github.com/repos/pydata/pandas/issues?per_page=5')
-</code></pre></td>
+</pre></td>
 </tr>
 <tr>
 <td><a href="https://en.wikipedia.org/wiki/HTML">HTML</a></td>
-<td><pre><code>
+<td><pre>
 import pandas as pd
 df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
-</code></pre></td>
+</pre></td>
 </tr>
 </tbody>
 </table>
@@ -58,7 +58,7 @@ Pandas also supports reading from a variety of binary data formats, including:
 </tr>
 <tr>
 <td><a href="https://en.wikipedia.org/wiki/Microsoft_Excel">Excel</a></td>
-<td><code><code></code></code>
+<td>
 <pre>import pandas as pd
 df = pd.DataFrame({'a':[1,2,3,4], 'b':[5,6,7,8]}, index=pd.MultiIndex.from_product([['a','b'],['c','d']]))
 df.to_excel('df.excel.xlsx')
@@ -70,56 +70,56 @@ pd.read_excel(xlsx, 'Sheet1')
 <tr>
 <td><a href="https://support.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a></td>
 <td>
-<pre><code>
+<pre>
 import pandas as pd
 df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
 df.to_hdf('df.h5','table',append=True)
 pd.read_hdf('df.h5', 'table', where = ['index>2'])
-</code></pre>
+</pre>
 </td>
 </tr>
 <tr>
 <td><a href="https://github.com/wesm/feather">Feather</a></td>
 <td>
-<pre><code>
+<pre>
 import pandas as pd
 df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
 df.to_feather('df.feather')
 pd.read_feather('df.feather')
-</code></pre>
+</pre>
 </td>
 </tr>
 <tr>
 <td><a href="http://msgpack.org/index.html">Msgpack</a></td>
 <td>
-<pre><code>
+<pre>
 import pandas as pd
 df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
 df.to_msgpack('df.msg')
 pd.read_msgpack('df.msg')
-</code></pre>
+</pre>
 </td>
 </tr>
 <tr>
 <td><a href="https://en.wikipedia.org/wiki/Stata">Stata</a></td>
 <td>
-<pre><code>
+<pre>
 import pandas as pd
 df = pd.DataFrame(np.random.randn(10, 2), columns=list('AB'))
 df.to_stata('df.dta')
 pd.read_stata('df.dta')
-</code></pre>
+</pre>
 </td>
 </tr>
 <tr>
 <td><a href="https://docs.python.org/3/library/pickle.html">Pickle</a></td>
 <td>
-<pre><code>
+<pre>
 import pandas as pd
 df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
 df.to_pickle("df.pkl.gz", compression="gzip")
 pd.read_pickle("df.pkl.gz", compression="gzip")
-</code></pre>
+</pre>
 </td>
 </tr>
 </tbody>
@@ -141,11 +141,14 @@ Pandas does not have native support for reading/writing NetCDF, however there ar
 
 ### NetCDF Data Model
 
-The netCDF data model consists of the following components:
+The "classic" NetCDF data model consists of the following components:
 
 - Variables: N-dimensional arrays of data. Variables in netCDF files can be one of six types (char, byte, short, int, float, double).
 - Dimensions: These describe the axes of the data arrays. A dimension has a name and a length. An unlimited dimension has a length that can be expanded at any time, as more data are written to it. NetCDF files can contain at most one unlimited dimension.
 - Attributes: These annotate variables or files with small notes or supplementary metadata. Attributes are always scalar values or 1D arrays, which can be associated with either a variable or the file as a whole. Although there is no enforced limit, the user is expected to keep attributes small.
+
+In addition, the "common data model" introduced in NetCDF-4 includes the following:
+
 - Groups: These provide a way of hierarchically organizing data, similar to directories in a Unix file system.
 - User-defined types: These allow the definition of compound types (like C structures), enumeration types, variable length arrays, and opaque types.
 
@@ -165,3 +168,116 @@ The additional bits of metadata would be stored as netCDF attributes. Attributes
 
 ![Dataset Diagram](../fig/01_dataset_diagram.png)
 
+### netCDF4
+
+Although there are a number of packages for reading NetCDF files, we will just be working with netcdf4-python for this tutorial.
+
+#### Opening a file
+
+To open a netCDF file from python, you simply call the Dataset() constructor as follows:
+
+> from netCDF4 import Dataset 
+> dataset = Dataset('data.nc')
+> print(dataset.file_format)
+{: .python}
+
+#### Working with "Classic" NetCDF
+
+The netCDF4 module can read in any netCDF format. This tutorial will focus exclusively on the NetCDF-
+"classic" data model using: NETCDF4_CLASSIC
+
+The "classic" data model is made up of dimensions, variables and attributes only.
+
+#### Interrogating Dimensions
+
+You can interrogate dimensions using simple dictionary calls:
+
+> print(dataset.dimensions.keys())
+> print(dataset.dimensions['time'])
+{: .python}
+
+This would result in the output:
+
+> ['time', 'latitude', 'bound', 'longitude'])
+> <type 'netCDF4.Dimension'> (unlimited):
+>     name = 'time', size = 1
+{: .output}
+
+#### Interrogating Variables
+
+You can interrogate variables using simple dictionary calls:
+
+> for key in dataset.variables.keys():
+>   var = dataset.variables[key]
+>   print("name =", key)
+{: .python}
+
+This would result in the output:
+> name = tcc
+> name = time
+> name = latitude
+> name = longitude
+{: .output}
+
+Notice that you can access a variable by its key:
+
+> var = dataset.variables['tcc']
+> print(" dims =", var.dimensions)
+> print(" shape =", var.shape)
+> print(" size =", var.size)
+> print(" ndim =", var.ndim)
+> print(" datatype =", var.datatype){: .python}
+
+Which would result in:
+
+> dims = ('time', 'latitude', 'longitude')
+> shape = (1, 181, 360)
+> size = 65160
+> ndim = 3
+> datatype = float32 tcc(
+{: .output}
+
+#### Global Attributes
+
+Global attributes are available as attributes of the python dataset instance:
+
+> # Find all NetCDF global attributes
+> print(dataset.ncattrs())
+> for attr in dataset.ncattrs():
+>     print(attr, '=', getattr(dataset, attr))
+{: .python}
+
+Results in:
+
+> ['Conventions', 'history']
+> Conventions = CF-1.0
+> history = Written in a hurry on a Tuesday!
+{: .output}
+
+#### Variable Attributes
+
+Variable attributes are available as attributes of the python variable instance:
+
+> var = dataset.variables['windspeed']
+# Get units attribute
+> print(var.units)
+> # Find all variable attributes
+> for attr in var.ncattrs():
+>     print(attr, '=', getattr(var, attr))
+{: .python}
+
+Results in:
+
+> m/s
+> long_name = Wind speed
+> Units = m/s
+{: .output}
+
+> ## Challenge
+> Write a Python script to open the CIMP5 global emissions dataset. Call the script `load_data.py`. Use your knowledge of netCDF4 to answer
+> the following questions:
+> 
+> 1. How many dimensions does the dataset contain? What are the sizes of the dimensions?
+> 2. How many variables does the dataset contain, and what are their names and dimensions?
+> 3. What do you think the purpose of the 'FF' variable is?
+{: .challenge}

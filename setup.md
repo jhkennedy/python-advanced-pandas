@@ -6,25 +6,9 @@ permalink: /setup/
 
 > ## Data
 {: .prereq}
-Data for this lesson is from the Portal Project Teaching Database -
-[available on FigShare](https://figshare.com/articles/Portal_Project_Teaching_Database/1314459).
-
-For this lesson, we will use two files for the data. Download these files to your computer. Once you click on them they will be automatically downloaded to your default download directory.
-
-- [surveys.csv](https://ndownloader.figshare.com/files/2292172)
-- [species.csv](https://ndownloader.figshare.com/files/3299483)
-- [speciesSubset.csv](https://github.com/datacarpentry/python-ecology-lesson/blob/gh-pages/data/speciesSubset.csv)
-- [SQL Database](https://github.com/datacarpentry/python-ecology-lesson/blob/gh-pages/data/portal_mammals.sqlite)
-
-
 
 > ## Software
 {: .prereq}
-[Python](http://python.org) is a popular language for
-scientific computing, and great for general-purpose programming as
-well.  Installing all of its scientific packages individually can be
-a bit difficult, so we recommend an all-in-one installer.
-
 For this workshop we use Python version 3.x.
 
 ## Required Python Packages for this workshop
@@ -33,49 +17,50 @@ For this workshop we use Python version 3.x.
 * [Jupyter notebook](http://jupyter.org/)
 * [Numpy](http://www.numpy.org/)
 * [Matplotlib](http://matplotlib.org/)
+* [ggplot](http://ggplot.yhathq.com/)
 
 ## Install the workshop packages
 
-For installing these packages we will use Anaconda or Miniconda.
-They both use [Conda](http://conda.pydata.org/docs/), the main difference is
-that Anaconda comes with a lot of packages pre-installed.
-With Miniconda you will need to install the required packages.
+For installing these packages we will use Anaconda. 
+Anaconda is a Python distribution aimed at data science.
 
 ### Anaconda installation
 
-Anaconda will install the workshop packages for you.
-
-#### Download and install Anaconda
-
 Download and install [Anaconda](https://www.continuum.io/downloads).
-Remember to download and install the installer for Python 3.x.
+Remember to download and install the installer for <b>Python 3.x</b> for your
+platform.
 
-### Miniconda installation
-
-Miniconda is a "light" version of Anaconda. If you install and use Miniconda
-you will also need to install the workshop packages.
-
-#### Download and install Miniconda
-
-Download and install [Miniconda](http://conda.pydata.org/miniconda.html)
-following the instructions. Remember to download and run the installer for
-Python 3.x.
-
-#### Check the installation of Miniconda
-
-From the terminal, type:
+You can download either the graphical or command-line installer. If you
+download the command line installer, you will need to run the installer
+using the `sh` command. For example, if you downloaded 
+`Anaconda3-4.4.0-MacOSX-x86_64.sh`, you would need to run the command:
 
 ```
-conda list
+sh Anaconda3-4.4.0-MacOSX-x86_64.sh
 ```
 
-### Install the required workshop packages with conda
+It is usually necessary to restart your shell once you've installed Anaconda.
 
-From the terminal, type:
+### ggplot installation
+
+Run the command:
 
 ```
-conda install -y numpy pandas matplotlib jupyter
-conda install -c bokeh ggplot
+conda install ggplot
+```
+
+In some cases, installing `ggplot` from conda may fail with an error like:
+
+```
+UnsatisfiableError:The following specifications were found to be in conflict:
+      - ggplot -> python3.4*
+      - python 3.6*
+```
+
+In that case, try installing `ggplot` with Anaconda `pip` by running this command in your terminal:
+
+```
+pip install -U ggplot
 ```
 
 ## Launch a Jupyter notebook

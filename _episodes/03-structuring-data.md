@@ -21,7 +21,7 @@ provided in the data set are in units of gC/m2/s (grams of carbon per meter squa
 latitude/longitude grid. To convert these to the total emissions for the month across the grid, we need to multiple the FF
 value by the area of each grid element (provided by the AREA variable) and by the number of seconds in the month.
 
-### Creating a DataFrame
+### Working with Time Series
 
 First, using the time series function `date_range` it is possible to
 create a fixed frequency `DateTimeIndex` with a period of months, a start data of 1751 and an end date of 2007. We can then
@@ -35,11 +35,17 @@ seconds_in_month = months.days_in_month[:] * 24 * 60 * 60
 Now we can calculate the total emissions for each month using the `ff` and `area` variables:
 
 ```python
-total_emissions_per_month = ff[:,:,:] * area[:,:] * seconds_in_month[:, None, None]
+total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
 ```
 
 Notice that we needed to specify `None` for the last two indices of `seconds_in_month`. This is because the
 multiplication is done element-wise, so the arrays need to be compatible for *broadcasting*.
+
+### Broadcasting
+
+Description of how broadcasting works
+
+### Combining DataFrames and Series
 
 Now that we have the data ready, we can construct a `DataFrame` containing the total emissions data and insert the `Series`
 we created previously as a column:
@@ -126,7 +132,7 @@ Month  Latitude Longitude
 > and verify that it produces the output you expected.
 {: .challenge}
 
-### Accessing the Data
+### Accessing Hierarchical Data
 
 How do we go about accessing the data? If you recall from the [Introduction to Pandas](https://ornl-training.github.io/python-pandas) lesson, values in a Pandas `DataFrame`
 are indexed using `.loc[row_indexer, column_indexer]` or `.loc[row_indexer, :]` for just accessing by row index (it is possible to drop the `:` in some cases, but this can

@@ -39,5 +39,26 @@ emissions_index = pd.MultiIndex.from_product([tc, lat, lon], names=['Month', 'La
 # Create a series representing the emissions data
 #
 ff_pd = pd.Series(ff, index=emissions_index)
-print(ff_pd)
 
+#
+# Create a DateTimeIndex representing the months between Jan 1751 and  Dec 2007
+#
+months = pd.date_range('1751-01', '2008-01', freq='M')
+
+#
+# Calculate the number of seconds in each month
+#
+seconds_in_month = months.days_in_month[:] * 24 * 60 * 60
+
+#
+# Compute the total emissions for each grid element
+#
+total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
+
+#
+# Create a dataframe with the fossil fuel and total emissions data
+#
+emissions = pd.DataFrame(total_emissions_per_month.values.reshape(-1), 
+                   index=emissions_index, columns=['Total Emissions Per Month'])
+emissions['FF'] = ff_pd
+print(emissions)

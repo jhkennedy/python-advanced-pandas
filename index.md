@@ -40,7 +40,7 @@ We'll start with the following two data sets:
 > This lesson assumes basic knowledge of Python and completion of the Introduction to Pandas lessons. The following are good measures of the prerequisite skills necessary for this lesson.:
 > - Software Carpentry [Programming with Python](http://swcarpentry.github.io/python-novice-inflammation/) 
 > - [Plotting and Programming in Python](https://ornl-training.github.io/python-novice-gapminder/)
-> - [Introduction to Pandas](https://ornl-training.github.io/python-advanced-pandas)
+> - [Introduction to Pandas](https://ornl-training.github.io/python-pandas)
 {: .prereq}
 
 > ## For Instructors

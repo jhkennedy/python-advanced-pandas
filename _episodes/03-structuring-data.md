@@ -120,6 +120,12 @@ Month  Latitude Longitude
 [199843200 rows x 2 columns]
 ```
 
+> ## Challenge
+>
+> Add the code necessary to create the `emissions` `DataFrame` to your program. Run the program
+> and verify that it produces the output you expected.
+{: .challenge}
+
 ### Accessing the Data
 
 How do we go about accessing the data? If you recall from the [Introduction to Pandas](https://ornl-training.github.io/python-pandas) lesson, values in a Pandas `DataFrame`

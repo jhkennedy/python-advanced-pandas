@@ -142,7 +142,7 @@ MultiIndex(levels=[[-86.5, -85.5, -84.5, -83.5, -82.5, -81.5], [-105.5, -104.5, 
 > Modify the `load_data.py` script as follows:
 > 
 > 1. Obtain NumPy arrays for the "Longitude", "Latitiude", "time_counter", "FF", and "AREA" netCDF variables and assign them to Python variables.
-> 2. Generate a `MultiIndex` from the "time_counter", "Latitude", and "Longitude" variables.
+> 2. Generate a `MultiIndex` from the product of the "time_counter", "Latitude", and "Longitude" variables. Use 'Month', 'Latitude', and 'Longitude' as the level names.
 {: .challenge}
 
 ## Wrapping the Data

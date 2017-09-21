@@ -66,7 +66,7 @@ on top of these. This process is known as *inheritance*.
 In programming terms, classes are able to inherit common state and behavior from other classes. A class that inherits from another class is called a 
 *subclass*. A class that is inherited by other classes is called a *superclass* or *base class* .
 
-![inherit](../fig/inherit.png)
+![inherit](../fig/04_inherit.png)
 
 ## Classes in Python
 

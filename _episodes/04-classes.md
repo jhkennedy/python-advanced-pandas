@@ -17,9 +17,10 @@ Now that we have decided how the data should be stored in a useful format, it ma
 so that we can easily reuse the data for our analysis purposes. We could do this using Python functions, but a much
 better approach is to use object oriented (OO) programming and *classes*.
 
-## OO: A Very Brief Primer
+## A Very Brief Primer
 
-Why use OO? There are many opinions about the benefits or otherwise of OO programming, but there are two clear motivating
+Why use object oriented programming? There are many opinions about the benefits or otherwise of object oriented programming,
+but there are two clear motivating
 factors. The first is that it helps deal with the inherent complexity of software through abstraction. This closely 
 matches with how we deal with complexity in other areas. The second is that it significantly improves reuse, which has 
 many benefits for maintaining code, and makes it easier to understand, troubleshoot, and debug the code.
@@ -32,7 +33,7 @@ There are three main concepts that are key to object oriented programming:
 
 ### Objects
 
-In OO, an object encapsulates two concepts: *state* and *behavior*.
+In object oriented programming, an object encapsulates two concepts: *state* and *behavior*.
 
 State information is the data that the object holds, much like the data stored in a variable. In Python, state information is know as the
 *attributes* of an object. Other languages uses different terminology (e.g. fields), but it means the same thing.

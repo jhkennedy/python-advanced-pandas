@@ -7,10 +7,10 @@ questions:
     - " What is the difference between a class and an object?"
     - " How do I define and use classes in Python?"
 objectives:
-	- "Describe the principals of object oriented programming."
-	- "Show how to define Python classes."
-	- "Explore inheritance in Python."
-	- "See how operators can be overloaded."
+    - "Describe the principals of object oriented programming."
+    - "Show how to define Python classes."
+    - "Explore inheritance in Python."
+    - "See how operators can be overloaded."
 ---
 
 Now that we have decided how the data should be stored in a useful format, it makes sense to structure the program 

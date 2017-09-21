@@ -77,7 +77,8 @@ class bike():
     number_of_gears = 21
 
     def select_gear(self, gear_number):
-        self.current_gear = gear_number
+        if gear_number >= 1 and gear_number <= self.number_of_gears:
+            self.current_gear = gear_number
 ```
 
 Python defines two different types of attributes. A class attribute is a variable that is accessible by any instance of the class (i.e. all instances share the variable).
@@ -148,7 +149,7 @@ useful for initializing the attributes of the object. Python uses the special na
 
 In Python, any arguments included when the instance is created are automatically passed to the constructor method.
 
-Let's redefine the `bike` class to take the number of wheels as an argument:
+Let's redefine the `bike` class to take the number of gears as an argument:
 
 ```python
 class bike():

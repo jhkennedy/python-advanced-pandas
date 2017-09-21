@@ -19,16 +19,18 @@ better approach is to use object oriented (OO) programming and *classes*.
 
 ## OO: A Very Brief Primer
 
-There are three main concepts need to understand object oriented programming:
+Why use OO? There are many opinions about the benefits or otherwise of OO programming, but there are two clear motivating
+factors. The first is that it helps deal with the inherent complexity of software through abstraction. This closely 
+matches with how we deal with complexity in other areas. The second is that it significantly improves reuse, which has 
+many benefits for maintaining code, and makes it easier to understand, troubleshoot, and debug the code.
+
+There are three main concepts that are key to object oriented programming:
 
 - Objects
 - Classes
 - Inheritance
 
 ### Objects
-
-The first thing to realize is that everything in Python is an object, even basic data types and literals. Things that
-you would not normally think of as objects, like functions, are also objects.
 
 In OO, an object encapsulates two concepts: *state* and *behavior*.
 
@@ -69,7 +71,13 @@ In programming terms, classes are able to inherit common state and behavior from
 
 ![inherit](../fig/04_inherit.png)
 
-## Classes in Python
+## Object Oriented Programming in Python
+
+The first thing to realize is that everything in Python is an object, even basic data types and literals. Things that
+you would not normally think of as objects, like functions, are also objects. This has big implications for how
+Python programs work as will be seen in the following sections.
+
+### Classes
 
 Python classes are define using the `class` keyword. A class that defines a generic bicycle might be as follows:
 

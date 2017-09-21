@@ -3,9 +3,14 @@ title: Using Classes
 teaching: 30
 exercises: 30
 questions:
-    - " How can I use NetCDF in Pandas?"
-    - " How should I structure my DataFrame?"
+    - " What is Object Oriented Programming?"
+    - " What is the difference between a class and an object?"
+    - " How do I define and use classes in Python?"
 objectives:
+	- "Describe the principals of object oriented programming."
+	- "Show how to define Python classes."
+	- "Explore inheritance in Python."
+	- "See how operators can be overloaded."
 ---
 
 Now that we have decided how the data should be stored in a useful format, it makes sense to structure the program 
@@ -229,7 +234,7 @@ of gears is set for instances of road bikes.
 >
 > > ## Solution
 > > 
-> > 1. The `mountain_bike` class requires an argument.
+> > 1. The `mountain_bike` class requires an argument but the `road_bike` does not.
 > > 2. The call to `check_for_rear_suspension()` on the `road_bike` instance produces the error:
 > > ```python
 > > ---------------------------------------------------------------------------
@@ -240,6 +245,7 @@ of gears is set for instances of road bikes.
 > > ----> 4 print(your_bike.check_for_rear_suspension())
 > > 
 > > AttributeError: 'road_bike' object has no attribute 'check_for_rear_suspension'
+> > ```
 > {: .solution}
 {: .challenge}
 
@@ -256,14 +262,21 @@ it is translated into the method call `__add__`. So the following two statements
 (1).__add__(2)
 ```
 
-Both of these will produce the result `3` (we have to put parentheses around the `1` to prevent Python thinking `1.` is a floating
+Both of these will produce the result `3` (we have to put parentheses around the "`1`" to prevent Python thinking "`1.`" is a floating
 point number, which will generate an `invalid syntax` error.)
 
 Essentially, every case of `obj1 + obj2` will be translated into `obj1.__add__(obj2)`.
 
 When the objects are not numbers, it would be nice if `+` could still be used, but the operator take on a meaning that is more appropriate
-for the type of the objects. For example, it would be nice if `'this is a string' + ' and some more'` would result in 
-`'this is a string and some more'`. Oh wait, it does already!
+for the type of the objects. For example, it would be nice if 
+
+`'this is a string' + ' and some more'` 
+
+would result in 
+
+`'this is a string and some more'`
+
+Oh wait, it does already!
 
 In the case of strings, the meaning of the `__add__` method has been changed from "addition" to "concatenation". This is what is known as
 *operator overloading*, because the same operator is used for two different purposes. To overload the `+` operator, it is simply a matter 

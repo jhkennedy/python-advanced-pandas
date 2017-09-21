@@ -47,7 +47,7 @@ A class can be thought of as a blueprint for creating an object. Since many obje
 serves as a prototype that specifies the state and behavior of objects created using the class.
 
 When an object is created based on a prototype like this, it is called an *instance* of that class.
-So if “bicycle” is a class or blueprint that specifies the state (the currently selected gear) and behavior (changing up or down a gear), your bicycle is a 
+So if “bike” is a class or blueprint that specifies the state (the currently selected gear) and behavior (changing up or down a gear), your bicycle is a 
 specific instance of that class, and my bicycle is another instance.
 
 ![class](../fig/04_class.png)
@@ -56,7 +56,7 @@ In programming terms, a class specifies the attributes and methods of the object
 
 ### Inheritance
 
-Similar types of objects often share common properties. For example, mountain bikes and road bikes share the characteristics of a generic “bicycle” 
+Similar types of objects often share common properties. For example, mountain bikes and road bikes share the characteristics of a generic “bike” 
 such as the current speed, current gear, the ability to change gear, etc. However these bikes also have characteristics that are specific 
 only to themselves, such as a mountain bike may have more gears than a road bike.
 

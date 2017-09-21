@@ -8,6 +8,10 @@ questions:
 objectives:
 ---
 
+At the end of the last lesson we our program was able to load the NetCDF file and create a 
+`DataFrame` containing the emissions and total emissions data. An example of what this
+program might look like is available [here](../code/load_data_03.py). 
+
 Now that we have decided how the data should be stored in a useful format, it makes sense to structure the program 
 so that we can easily reuse the data for our analysis purposes. We could do this using Python functions, but a much
 better approach is to use object oriented (OO) programming and *classes*.
@@ -243,62 +247,23 @@ of gears is set for instances of road bikes.
 > {: .solution}
 {: .challenge}
 
-## Operator Overloading
-
-Recall at the beginning of this lesson, we said that *everything* in Python is an object? So if literals like `1`, `2`, etc. are actually
-objects, then how can we write something like `1 + 2`?
-
-The `+` symbol is what is known as an *operator*, and Python translates operators into special method calls on objects. In the case of `+`,
-it is translated into the method call `__add__`. So the following two statements are identical:
+The first function we will create will be called `load_data` and will take a single argument that is the filename of
+the dataset we are loading. It will look like this:
 
 ```python
-1 + 2
-(1).__add__(2)
+def load_data(filename):
+   '''Load a NetCDF4 file containing the CMIP5 dataset.
+   
+      Parameters:
+      	filename: path to the dataset
+      	
+    	  Return value:
+    	    A pandas dataframe containing the fossil fuel emission and total emissions for each month
+    	    on a lat/lon grid.
+    	 '''
+    	 
+    	 ...
 ```
 
-Both of these will produce the result `3` (we have to put parentheses around the `1` to prevent Python thinking `1.` is a floating
-point number, which will generate an `invalid syntax` error.)
-
-Essentially, every case of `obj1 + obj2` will be translated into `obj1.__add__(obj2)`.
-
-When the objects are not numbers, it would be nice if `+` could still be used, but the operator take on a meaning that is more appropriate
-for the type of the objects. For example, it would be nice if `'this is a string' + ' and some more'` would result in 
-`'this is a string and some more'`. Oh wait, it does already!
-
-In the case of strings, the meaning of the `__add__` method has been changed from "addition" to "concatenation". This is what is known as
-*operator overloading*, because the same operator is used for two different purposes. To overload the `+` operator, it is simply a matter 
-of defining a new `__add__` method in your class.
-
-Let's go ahead and do this for our bicycles. The main difficulty is deciding what the result of such an operation should be. In our
-case, adding two bikes together generally results in a crash, so this is what we'll do. Here is the code:
-
-```python
-class bike():
-    def __init__(self, gears=21):
-        self.number_of_gears = gears
-
-    def select_gear(self, gear_number):
-        if gear_number >= 1 and gear_number <= self.number_of_gears:
-            self.current_gear = gear_number
-            
-    def __add__(self, other):
-        return "crash!"
-```
-
-We put this in the base class so that all our types of bikes operate the same way. Now we can see what happens:
-
-```python
-my_bike = mountain_bike(False) # Only front suspension!
-your_bike = road_bike()
-print(my_bike + your_bike)
-```
-
-With the expected result:
-
-```
-crash!
-```
-
-Python defines methods for all the normal operators, including `__add__`, `__sub__`, `__mul__`, `__div__`, as well
-as logical operators `__lt__`, `__gt__`, etc., and others. See the [Standard operators as functions](https://docs.python.org/3/library/operator.html)
-chapter of the Python documentation for more details.
+The second function
+      

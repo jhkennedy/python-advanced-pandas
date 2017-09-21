@@ -70,7 +70,7 @@ In programming terms, classes are able to inherit common state and behavior from
 
 ## Classes in Python
 
-Python classes are define using the `class` keyword.
+Python classes are define using the `class` keyword. A class that defines a generic bicycle might be as follows:
 
 ```python
 class bike():
@@ -99,6 +99,13 @@ my_bike.select_gear(4)
 print("my bike is currently in", my_bike.current_gear, "th gear")
 ```
 
+This would result in the output:
+
+```
+my bike has 21 gears
+my bike is currently in 4 th gear
+```
+
 Creating another instance of the class creates a completely new object. Instance attributes on one object are independent from another object.
 
 ```python
@@ -107,6 +114,14 @@ print("your bike has", your_bike.number_of_gears, "gears")
 your_bike.select_gear(2)
 print("your bike is currently in", your_bike.current_gear, "nd gear")
 print("my bike is currently in", my_bike.current_gear, "th gear")
+```
+
+This would result in:
+
+```
+your bike has 21 gears
+your bike is currently in 2 nd gear
+my bike is currently in 4 th gear
 ```
 
 ### Class and Instance Attributes
@@ -118,6 +133,13 @@ the class name rather than the instance name when referring to the attributes. F
 bike.number_of_gears = 10 # A road bike?
 print("my bike has", my_bike.number_of_gears, "gears")
 print("your bike has", your_bike.number_of_gears, "gears")
+```
+
+The output from this code is:
+
+```
+my bike has 10 gears
+your bike has 10 gears
 ```
 
 > ## Challenge

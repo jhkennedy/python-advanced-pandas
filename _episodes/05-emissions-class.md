@@ -1,5 +1,5 @@
 ---
-title: Using Classes
+title: An Emissions Class
 teaching: 30
 exercises: 30
 questions:

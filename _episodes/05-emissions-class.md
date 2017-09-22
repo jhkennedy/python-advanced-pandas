@@ -48,11 +48,11 @@ class HistoricalCO2Emissions():
     def __init__(self, filename):
        return None
        
-    def get_total_monthly_emissions_grid(from_month, to_month):
+    def get_total_monthly_emissions_grid(self, from_month, to_month=None):
         ''' Find the total monthly emissions for all latitudes and longitudes on a grid
             Parameters:
-               from_month - Start month in the format 'YYYY-MM'
-               to_month - End month in format 'YYYY-MM'
+               from_month - First month to include in the results in the format 'YYYY-MM'
+               to_month - Optional final month to include in the results in the format 'YYYY-MM'
             Returns:
                 total monthly emissions for all latitudes and logitudes on a grid
         '''

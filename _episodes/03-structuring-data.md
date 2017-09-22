@@ -163,7 +163,7 @@ So, to find the emissions from just the North Pole for the last year of the data
 
 > ```python
 > emissions.loc[(slice(3072.0, 3084.0), 89.5, 179.5), :]
-> `
+> ```
 
 > ## Challenge
 > Add a line to your program that will print the emissions from the rectangular region between the closest grid points to New York City (latitude 40.7, longitude -74.0)

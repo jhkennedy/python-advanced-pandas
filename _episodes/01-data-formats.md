@@ -1,5 +1,5 @@
 ---
-title: Data Formats
+title: NetCDF Primer
 teaching: 30
 exercises: 30
 questions:
@@ -11,123 +11,6 @@ objectives:
     - "Show examples of reading/writing data formats."
     - "Describe other data formats used for GIS data."
 ---
-
-# Working With Data Formats in Python and Pandas
-
-## Pandas Built-in Formats
-
-Pandas provides a variety of tools for reading and writing textual and binary file formats. For textual formats, the most common of these are:
-
-<table border="1">
-<tbody>
-<tr>
-<td>Format</td>
-<td>Example</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_csv(filename, delimiter, header, ...)
-</pre></td>
-</tr>
-<tr>
-<td><a href="http://www.json.org/">JSON</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_json('https://api.github.com/repos/pydata/pandas/issues?per_page=5')
-</pre></td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/HTML">HTML</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
-</pre></td>
-</tr>
-</tbody>
-</table>
-
-Pandas also supports reading and writing a variety of binary data formats, including:
-
-<table border="1">
-<tbody>
-<tr>
-<td>Format</td>
-<td>Example</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Microsoft_Excel">Excel</a></td>
-<td>
-<pre>import pandas as pd
-df = pd.DataFrame({'a':[1,2,3,4], 'b':[5,6,7,8]}, index=pd.MultiIndex.from_product([['a','b'],['c','d']]))
-df.to_excel('df.excel.xlsx')
-xlsx = pd.ExcelFile('df.xlsx')
-pd.read_excel(xlsx, 'Sheet1')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://support.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
-df.to_hdf('df.h5','table',append=True)
-pd.read_hdf('df.h5', 'table', where = ['index>2'])
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://github.com/wesm/feather">Feather</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
-df.to_feather('df.feather')
-pd.read_feather('df.feather')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="http://msgpack.org/index.html">Msgpack</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
-df.to_msgpack('df.msg')
-pd.read_msgpack('df.msg')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Stata">Stata</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.randn(10, 2), columns=list('AB'))
-df.to_stata('df.dta')
-pd.read_stata('df.dta')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://docs.python.org/3/library/pickle.html">Pickle</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
-df.to_pickle("df.pkl.gz", compression="gzip")
-pd.read_pickle("df.pkl.gz", compression="gzip")
-</pre>
-</td>
-</tr>
-</tbody>
-</table>
-
-Pandas also provides tools for managing SAS, SQL, and Google BigQuery formats. Please refer to the Pandas documentation for more information.
-
-# [NetCDF](https://www.unidata.ucar.edu/software/netcdf/)
 
 The Network Common Data Form (NetCDF) is a set of libraries and self-describing machine-independent data formats that support the creation, access, 
 and sharing of array-oriented scientific data. NetCDF was developed and is maintained at Unidata, part of the University Corporation for Atmospheric 
@@ -168,7 +51,7 @@ The additional bits of metadata would be stored as netCDF attributes. Attributes
 
 ![Dataset Diagram](../fig/01_dataset_diagram.png)
 
-## netCDF4
+## netCDF4 Package
 
 Although there are a number of packages for reading NetCDF files, we will just be working with `netcdf4-python` for this tutorial.
 
@@ -354,4 +237,116 @@ We can use the normal NumPy operations on the resulting array:
 print(pr_np.mean(axis=1))
 ```
 
+## Working With Other Data Formats in Pandas
+
+Pandas provides a variety of tools for reading and writing textual and binary file formats. For textual formats, the most common of these are:
+
+<table border="1">
+<tbody>
+<tr>
+<td>Format</td>
+<td>Example</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_csv(filename, delimiter, header, ...)
+</pre></td>
+</tr>
+<tr>
+<td><a href="http://www.json.org/">JSON</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_json('https://api.github.com/repos/pydata/pandas/issues?per_page=5')
+</pre></td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/HTML">HTML</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
+</pre></td>
+</tr>
+</tbody>
+</table>
+
+Pandas also supports reading and writing a variety of binary data formats, including:
+
+<table border="1">
+<tbody>
+<tr>
+<td>Format</td>
+<td>Example</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Microsoft_Excel">Excel</a></td>
+<td>
+<pre>import pandas as pd
+df = pd.DataFrame({'a':[1,2,3,4], 'b':[5,6,7,8]}, index=pd.MultiIndex.from_product([['a','b'],['c','d']]))
+df.to_excel('df.excel.xlsx')
+xlsx = pd.ExcelFile('df.xlsx')
+pd.read_excel(xlsx, 'Sheet1')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://support.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
+df.to_hdf('df.h5','table',append=True)
+pd.read_hdf('df.h5', 'table', where = ['index>2'])
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://github.com/wesm/feather">Feather</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
+df.to_feather('df.feather')
+pd.read_feather('df.feather')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="http://msgpack.org/index.html">Msgpack</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
+df.to_msgpack('df.msg')
+pd.read_msgpack('df.msg')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Stata">Stata</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.randn(10, 2), columns=list('AB'))
+df.to_stata('df.dta')
+pd.read_stata('df.dta')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://docs.python.org/3/library/pickle.html">Pickle</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
+df.to_pickle("df.pkl.gz", compression="gzip")
+pd.read_pickle("df.pkl.gz", compression="gzip")
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+Pandas also provides tools for managing SAS, SQL, and Google BigQuery formats. Please refer to the Pandas documentation for more information.
 

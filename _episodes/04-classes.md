@@ -1,5 +1,5 @@
 ---
-title: Using Classes
+title: Object Oriented Programming
 teaching: 30
 exercises: 30
 questions:

@@ -4,10 +4,19 @@
 import pandas as pd
 import netCDF4 as nc
 
+#
+# Constants
+#
+MOLAR_MASS_AIR = 28.966 # g/Mol
+MEAN_MASS_AIR = 5.1480e21 # g
+MOLAR_MASS_C = 12.01 # g/Mol
+PPM_C_1752 = 276.39 # Mol/(Mol/1e6)
+
 class HistoricalCO2Emissions():
     ''' Class that represents historical C02 emissions. The constructor expects a file name or
         path the points to a dataset in NetCDF4 format.
     '''
+    
     
     def __init__(self, filename):
         #
@@ -56,13 +65,23 @@ class HistoricalCO2Emissions():
                from_month - First month to include in the results in the format 'YYYY-MM'
                to_month - Optional final month to include in the results in the format 'YYYY-MM'
             Returns:
-                total monthly emissions for all latitudes and logitudes on a grid
+                total monthly emissions for all latitudes and logitudes on a grid in gC/m2/s
         '''
         if to_month is None:
             return self.emissions.loc[from_month, :]['Total Per Month']
            
         return self.emissions.loc[(slice(from_month, to_month), slice(None), slice(None)), :]['Total Per Month']
         
+    def get_total_emissions_grid_Mt(self, year):
+        ''' Find the total emissions for a particular year for all latitudes and longitudes on a grid in Mt
+            Parameters:
+               year - Year to include in the results in the format 'YYYY'
+            Returns:
+                total emissions for all latitudes and logitudes on a grid in Mt
+        '''
+        total = self.get_total_monthly_emissions_grid(from_month, to_month)
+        total_sum = total.sum(level=[1,2])
+        return (total_sum / MOLAR_MASS_C) / (MEAN_MASS_AIR / MOLAR_MASS_AIR) * 1.e-6
 
 if __name__ == '__main__':
     df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')

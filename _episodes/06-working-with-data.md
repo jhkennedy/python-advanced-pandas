@@ -52,7 +52,7 @@ Modules are also only ever imported *once*. So multiple statements importing the
 in the module be run multiple times, although you can provide multiple namespaces for the same names
 this way.
 
-> # Challenge
+> ## Challenge
 >
 > Suppose module `a.py` contained the following:
 >
@@ -88,14 +88,16 @@ Another important distinction between importing a module and running it as a scr
 of the global variable `__name__`. When you import a module, this variable is set to the name
 of the module, however, when you run the module as a script this variable is set to `__main__`.
 This enables code to be placed in the module that will only be executed when it is run as
-as script, and why you see the statement:
+as script, and why you see the following statement so often.
 
 ```
 if __name__ == '__main__':
     ...
 ```
 
-so often.
+Any code that is placed inside the body of the `if` statement will only be executed when the
+module is run, *not* when it is imported. This allows modules to be used both as libraries and
+as programs, and also provides a great way of including test code with the module.
 
 ### Packages
 
@@ -125,3 +127,8 @@ as the program being run without needing to specify anything additional.
 
 See the Python [Modules](https://docs.python.org/3.6/tutorial/modules.html) documentation for more details
 on modules, packages, and importing.
+
+## Finding the Cities
+
+The next step in our analysis task is to determine the CO2 emissions from the top emitting cities. Fortunately
+we already have a dataset that lists these 

@@ -1,5 +1,5 @@
 ---
-title: Converting to Pandas
+title: Using NetCDF with Pandas
 teaching: 30
 exercises: 30
 questions:
@@ -7,8 +7,6 @@ questions:
     - " How should I structure my DataFrame?"
 objectives:
 ---
-
-# Using NetCDF with Pandas
 
 In the last module, we wrote a simple Python program to load the NetCDF data and print some useful information about it. An example of what this
 script might look like is available [here](../code/load_data_01.py). We also saw that the data is accessible as NumPy arrays. However, it would be much more useful

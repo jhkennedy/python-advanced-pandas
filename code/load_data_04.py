@@ -1,5 +1,5 @@
 #
-# Program to load the CMIP5 emissions dataset
+# Program to manage the CMIP5 emissions dataset
 #
 import pandas as pd
 import netCDF4 as nc
@@ -64,7 +64,7 @@ class HistoricalCO2Emissions():
         return self.emissions.loc[(slice(from_month, to_month), slice(None), slice(None)), :]['Total Per Month']
         
 
-#df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
-df = HistoricalCO2Emissions('../../ABM/data/fix.nc')
-print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data
-print(df.get_total_monthly_emissions_grid('1999-04')) # One month's data
+if __name__ == '__main__':
+    df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
+    print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data
+    print(df.get_total_monthly_emissions_grid('1999-04')) # One month's data

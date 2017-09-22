@@ -1,5 +1,5 @@
 ---
-title: Creating an Emissions Class
+title: Creating a Class
 teaching: 30
 exercises: 30
 questions:
@@ -7,7 +7,7 @@ questions:
 objectives:
 ---
 
-At the end of the last lesson we our program was able to load the NetCDF file and create a 
+At the end of the last lesson our program was able to load the NetCDF file and create a 
 `DataFrame` containing the emissions and total emissions data. An example of what this
 program might look like is available [here](../code/load_data_03.py). 
 
@@ -159,9 +159,10 @@ of data. We can replace the `return None` line with the following:
 > code to the end. Run it and check that you're getting the expected results.
 >
 > ```python
-> df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
-> print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data
-> print(df.get_total_monthly_emissions_grid('1999-04')) # One month's data
+> if __name__ == '__main__':
+>     df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
+>     print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data
+>     print(df.get_total_monthly_emissions_grid('1999-04')) # One month's data
 {: .challenge}
 
       

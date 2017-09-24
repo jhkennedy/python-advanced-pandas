@@ -48,13 +48,13 @@ class HistoricalCO2Emissions():
     def __init__(self, filename):
        return None
        
-    def get_total_monthly_emissions_grid(self, from_month, to_month=None):
+    def get_total_monthly_emissions_grid(self, start_month, end_month=None):
         ''' Find the total monthly emissions for all latitudes and longitudes on a grid
             Parameters:
-               from_month - First month to include in the results in the format 'YYYY-MM'
-               to_month - Optional final month to include in the results in the format 'YYYY-MM'
+               start_month - First month to include in the results in the format 'YYYY-MM'
+               end_month - Optional final month to include in the results in the format 'YYYY-MM'
             Returns:
-                total monthly emissions for all latitudes and logitudes on a grid
+                total monthly emissions for all latitudes and logitudes on a grid in gC/m2/s
         '''
         return None
 ```
@@ -127,15 +127,15 @@ as these are now instance attributes:
 ## Defining Methods
 
 We decided that a `get_total_monthly_emissions_grid` method would be useful, so let's see how we go about implementing it. It turns out
-that we've already done most of the hard work. All we really need to do is use the `from_month` and `to_month` parameters to slice
-the `DataFrame`, then return the `Total Per Month` values. Remember to check if `to_month` is `None` and return a specific month's worth
+that we've already done most of the hard work. All we really need to do is use the `start_month` and `end_month` parameters to slice
+the `DataFrame`, then return the `Total Per Month` values. Remember to check if `end_month` is `None` and return a specific month's worth
 of data. We can replace the `return None` line with the following:
 
 ```python
-        if to_month is None:
-            return self.emissions.loc[from_month, :]['Total Per Month']
+        if end_month is None:
+            return self.emissions.loc[start_month, :]['Total Per Month']
            
-        return self.emissions.loc[(slice(from_month, to_month), slice(None), slice(None)), :]['Total Per Month']
+        return self.emissions.loc[(slice(start_month, end_month), slice(None), slice(None)), :]['Total Per Month']
 ```
 
 > ## Why so complicated?
@@ -143,7 +143,7 @@ of data. We can replace the `return None` line with the following:
 > Why can't we just use the following?
 >
 > ```python
-> return self.emissions.loc[to_month:from_month,:]['Total Per Month']
+>         return self.emissions.loc[start_month:end_month:]['Total Per Month']
 > ```
 >
 > It turns out that if we were using a single level index rather than a hierarchical index, we would be

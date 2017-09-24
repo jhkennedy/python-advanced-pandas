@@ -130,5 +130,6 @@ on modules, packages, and importing.
 
 ## Finding the Cities
 
-The next step in our analysis task is to determine the CO2 emissions from the top emitting cities. Fortunately
-we already have a dataset that lists these 
+The next step in our analysis task is to determine the CO2 emissions at the grid points closest to the top emitting cities.
+We'll work on a yearly basis just to make it a bit easier. Fortunately we already have a dataset that lists the emissions of 
+each city, along with the city's latitude and longitude, so it is a matter of locating the grid point closest to the city

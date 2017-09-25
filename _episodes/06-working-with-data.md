@@ -29,18 +29,6 @@ City,Country,Latitude,Longitude,Population (Millions),Total GHG (MtCO2e),Total G
 >
 > Write a program called `global_emissions_cities.py` that loads the city emissions data
 > from `CityCO2Emissions.csv` into a Pands `DataFrame` and prints it out.
->
-> > ## Solution
-> > 
-> > ```python
-> > import pandas as pd
-> > 
-> > if __name__ == "__main__":
-> >     # Load city emissions data
-> > 	    city_data = pd.read_csv('CityCO2Emissions.csv')
-> > 	    print(city_data)
-> > ```
-> {: .solution}
 {: .challenge}
 
 ## Finding the Cities
@@ -49,7 +37,8 @@ In order to determine the contribution that the city emissions make to the globa
 the emissions from the global emissions data set.
 
 The simplest way to do this is to use interpolation to determine the emissions in the global data set at a given location. 
-We can do this using the `RegularGridInterpolator` which is part of the SciPy Interpolation package (`scipy.interpolate`). 
+We can do this using the [`RegularGridInterpolator`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator) which is part of the 
+SciPy Interpolation package ([`scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/interpolate.html#module-scipy.interpolate)). 
 This class takes a set of points defining a regular grid (latitude/longitude in our case), and the data on the grid. The 
 interplator can then be called with a specific coordinate and it will return an approximation at the point. By default, 
 it will use "linear" interpolation, so we also need to specify that we want to use "nearest".
@@ -103,19 +92,21 @@ if __name__ == "__main__":
 The final step in our analysis task is to calculate the total city emissions, the total global emissions, then an estimate of
 how much the cites have contributed. 
 
-The total emissions from the cities is calculated as follows:
+We can calculate the total emissions from the cities by summing the data from the "Total GHG (MtCO2e)" column:
 
 ```python
 total_city_emissions = city_data['Total GHG (MtCO2e)'].sum()
 ```
 
-The total emissions for the cities we calculated from the global data set is:
+The emissions for the cities were calculated from the global data set and saved as `city_emissions`. We can just sum
+this to find the total emissions:
 
 ```python
 total_calc_emissions = city_emissions.sum()
 ```
 
-We can then estimate the city contribution and as a percentage of the global emissions as follows:
+Finally, we can obtain the total global emissions by summing the values in the `global_emissions_values` array, then
+use this to estimate the city contribution and as a percentage of the global emissions as follows:
 
 ```python
 city_contribution = total_city_emissions - total_calc_emissions
@@ -125,8 +116,22 @@ percent_contribution = city_contribution / global_emissions_values.sum() * 100.
 > ## Challenge
 >
 > Add this code to your program and print out the final result, which is the percentage contribution of the cities.
+> What value do you obtain?
 >
+> > ## Solution
+> >
+> > % of global emissions cities account for: 25.7745026041
+> {: .solution}
 {: .challenge}
+
+> ## Challenge
+>
+> The `RegularGridInterpolator` we used is pretty simplistic. Another approach is to use a k-d tree
+> for nearest-neighbor lookup. The SciPy Spatial data structures and algorithms module 
+> ([`scipi.spatial`](https://docs.scipy.org/doc/scipy/reference/spatial.html#module-scipy.spatial))
+> provides a [`cKDTree`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.html#scipy.spatial.cKDTree)
+> class for this purpose. This class works sligtly differently from the interpolator in that it takes
+> N data points of dimension M
 
 ## Some Things You Didn't Know About Importing
 

@@ -22,12 +22,13 @@ class HistoricalCO2Emissions():
         #
         # Load dataset and create variable references
         #
-        self.dataset = nc.Dataset(filename)
-        self.lat = self.dataset.variables['Latitude'][:]
-        self.lon = self.dataset.variables['Longitude'][:]
-        self.tc = self.dataset.variables['time_counter'][:]  
-        self.ff = self.dataset.variables['FF'][:,:,:]
-        self.area = self.dataset.variables['AREA'][:,:]
+        dataset = nc.Dataset(filename)
+        ff = dataset.variables['FF'][:,:,:]
+        area = dataset.variables['AREA'][:,:]
+                
+        # Keep these as instance attributes
+        self.latitude = dataset.variables['Latitude'][:]
+        self.longitude = dataset.variables['Longitude'][:]
                 #
         # Create a DateTimeIndex representing the months between Jan 1751 and  Dec 2007
         #
@@ -41,12 +42,12 @@ class HistoricalCO2Emissions():
         # 
         # Compute the total emissions for each grid element
         #
-        total_emissions_per_month = self.ff * self.area * seconds_in_month[:, None, None]
+        total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
 
         #
         # Create a MultiIndex for the emissions data using the DateTimeIndex and lat/lon values
         #
-        emissions_index = pd.MultiIndex.from_product([months, self.lat, self.lon], names=['Month', 'Latitude', 'Longitude'])
+        emissions_index = pd.MultiIndex.from_product([months, self.latitude, self.longitude], names=['Month', 'Latitude', 'Longitude'])
 
         #
         # Create a DataFrame for the fossil fuel and total emissions data 
@@ -57,7 +58,7 @@ class HistoricalCO2Emissions():
         #
         # Add the fossil fuel data to the DataFrame
         #
-        self.emissions['Fossil Fuel'] = pd.Series(self.ff.reshape(-1), index=emissions_index)
+        self.emissions['Fossil Fuel'] = pd.Series(ff.reshape(-1), index=emissions_index)
                
     def get_total_monthly_emissions_grid(self, start_month, end_month=None):
         ''' Find the total monthly emissions for all latitudes and longitudes on a grid

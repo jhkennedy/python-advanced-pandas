@@ -61,8 +61,8 @@ class HistoricalCO2Emissions():
 
 ## Loading the Data
 
-We've already seen how to load the dataset, and it's probably worth keeping instance attributes for each of
-the NetCDF variables in the dataset. This code can be transferred directly to the constructor of our class.
+We've already seen how to load the data set, this code can be transferred directly to the constructor of our class.
+We'll also keep instance attributes for the latitude and longitude values so we can use them later.
 The new version of the `__init__` method no longer needs a `return None` statement, since this is what
 is returned implicitly anyway.
 
@@ -73,12 +73,13 @@ The new code looks like this:
         #
         # Load dataset and create variable references
         #
-        self.dataset = nc.Dataset(filename)
-        self.lat = self.dataset.variables['Latitude'][:]
-        self.lon = self.dataset.variables['Longitude'][:]
-        self.tc = self.dataset.variables['time_counter'][:]  
-        self.ff = self.dataset.variables['FF'][:,:,:]
-        self.area = self.dataset.variables['AREA'][:,:]
+        dataset = nc.Dataset(filename)
+        ff = dataset.variables['FF'][:,:,:]
+        area = dataset.variables['AREA'][:,:]
+        
+        # Keep these as instance attributes
+        self.latitude = dataset.variables['Latitude'][:]
+        self.longitude = dataset.variables['Longitude'][:]
 ```
 
 Our constructor should also create the `DataFrame` since this is ultimately what we'll be referring to
@@ -105,12 +106,12 @@ as these are now instance attributes:
         # 
         # Compute the total emissions for each grid element
         #
-        total_emissions_per_month = self.ff * self.area * seconds_in_month[:, None, None]
+        total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
 
         #
         # Create a MultiIndex for the emissions data using the DateTimeIndex and lat/lon values
         #
-        emissions_index = pd.MultiIndex.from_product([months, self.lat, self.lon], names=['Month', 'Latitude', 'Longitude'])
+        emissions_index = pd.MultiIndex.from_product([months, self.latitude, self.longitude], names=['Month', 'Latitude', 'Longitude'])
 
         #
         # Create a DataFrame for the fossil fuel and total emissions data 
@@ -121,7 +122,7 @@ as these are now instance attributes:
         #
         # Add the fossil fuel data to the DataFrame
         #
-        self.emissions['Fossil Fuel'] = pd.Series(self.ff.reshape(-1), index=emissions_index)
+        self.emissions['Fossil Fuel'] = pd.Series(ff.reshape(-1), index=emissions_index)
 ```
 
 ## Defining Methods

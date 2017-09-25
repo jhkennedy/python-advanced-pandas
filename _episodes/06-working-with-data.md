@@ -1,5 +1,5 @@
 ---
-title: Data Analysis with the Class
+title: Analyzing the Data
 teaching: 30
 exercises: 30
 questions:
@@ -11,9 +11,124 @@ At the end of the last lesson our program provided a class for managing the emis
 An example of what this program might look like is available [here](../code/load_data_04.py). 
 
 The purpose of creating the `HistoricalCO2Emissions` class was so that we could re-use it for
-our analysis task. So let's see how to do that now.
+our analysis task. So let's see how to do that now. We're going to create a new program
+called `global_emissions_cities.py` that will determine the contribution that the city emissions 
+make to the global emissions.
 
-## Some Things About Importing You Didn't Know
+## Loading the City Data
+
+The city emissions data is located in a file called `CityCO2Emissions.csv`. This contains the coordinates of the city, along
+with the total emissions (in MtC02e) as follows. Since the file is in CSV format, we can easily use the Pandas `read_csv`
+method to load the data. Here is the first line of the file:
+
+```
+City,Country,Latitude,Longitude,Population (Millions),Total GHG (MtCO2e),Total GHG (tCO2e/cap)
+```
+
+> ## Challenge
+>
+> Write a program called `global_emissions_cities.py` that loads the city emissions data
+> from `CityCO2Emissions.csv` into a Pands `DataFrame` and prints it out.
+>
+> > ## Solution
+> > 
+> > ```python
+> > import pandas as pd
+> > 
+> > if __name__ == "__main__":
+> >     # Load city emissions data
+> > 	    city_data = pd.read_csv('CityCO2Emissions.csv')
+> > 	    print(city_data)
+> > ```
+> {: .solution}
+{: .challenge}
+
+## Finding the Cities
+
+In order to determine the contribution that the city emissions make to the global emissions, we need to first remove
+the emissions from the global emissions data set.
+
+The simplest way to do this is to use interpolation to determine the emissions in the global data set at a given location. 
+We can do this using the `RegularGridInterpolator` which is part of the SciPy Interpolation package (`scipy.interpolate`). 
+This class takes a set of points defining a regular grid (latitude/longitude in our case), and the data on the grid. The 
+interplator can then be called with a specific coordinate and it will return an approximation at the point. By default, 
+it will use "linear" interpolation, so we also need to specify that we want to use "nearest".
+
+Assuming the latitude values are in a variable called `latitude`, longitude in `longitude` and the values in `global_emission_values`, 
+we use the interpolator as follows:
+
+```python
+from scipy.interpolate import RegularGridInterpolator
+
+emission_interpolator = RegularGridInterpolator([latitude, longitude], global_emission_values, method="nearest")
+result = emission_interpolator(city_location)
+```
+
+Fortunately, our class provides the `latitude` and `longitude` data, and we can obtain the global emissions data using the 
+`get_total_emissions_grid` method. The only tricky part is that we need to convert the emissions data into a 2-D array so
+that it can be used by the interpolator. We also have to convert the values from gC/m2/s to MtCO2e. Fortunately
+this just requires multiplying the values by `1.0e-12`.
+
+Let's put this into the program and try it out:
+
+```python
+import pandas as pd
+from scipy.interpolate import RegularGridInterpolator
+from historical_co2_emissions import HistoricalCO2Emissions
+
+year = '2005' # hard code this for now
+
+if __name__ == "__main__":
+    # Load city emissions data
+    city_data = pd.read_csv('CityCO2Emissions.csv')
+    
+    # Load global emissions data
+    emissions = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
+	
+    # Find the global emissions for the given year
+    global_emissions = emissions.get_total_emissions_grid(year)
+    
+    # convert to MtC02e
+    global_emissions *= 1.0e-12
+    
+    # convert to 2-D array of values
+    global_emissions_values = global_emissions.unstack(level=1).values 
+
+    # Interpolate the emissions for the city locations
+    emission_interpolator = RegularGridInterpolator([emissions.latitude, emissions.longitude], global_emissions_values, method="nearest")
+    city_emissions = emission_interpolator(city_data[['Latitude', 'Longitude']])
+    print(result)
+```
+
+The final step in our analysis task is to calculate the total city emissions, the total global emissions, then an estimate of
+how much the cites have contributed. 
+
+The total emissions from the cities is calculated as follows:
+
+```python
+total_city_emissions = city_data['Total GHG (MtCO2e)'].sum()
+```
+
+The total emissions for the cities we calculated from the global data set is:
+
+```python
+total_calc_emissions = city_emissions.sum()
+```
+
+We can then estimate the city contribution and as a percentage of the global emissions as follows:
+
+```python
+city_contribution = total_city_emissions - total_calc_emissions
+percent_contribution = city_contribution / global_emissions_values.sum() * 100.
+```
+
+> ## Challenge
+>
+> Add this code to your program and print out the final result, which is the percentage contribution of the cities.
+>
+{: .challenge}
+
+## Some Things You Didn't Know About Importing
 
 Previously, we've seen that to include new functionality in a Python program, you need to *import* it.
 There are a couple of different import statements: `import ... as` and `from ... import` but they
@@ -127,9 +242,3 @@ as the program being run without needing to specify anything additional.
 
 See the Python [Modules](https://docs.python.org/3.6/tutorial/modules.html) documentation for more details
 on modules, packages, and importing.
-
-## Finding the Cities
-
-The next step in our analysis task is to determine the CO2 emissions at the grid points closest to the top emitting cities.
-We'll work on a yearly basis just to make it a bit easier. Fortunately we already have a dataset that lists the emissions of 
-each city, along with the city's latitude and longitude, so it is a matter of locating the grid point closest to the city

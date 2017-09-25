@@ -124,14 +124,75 @@ percent_contribution = city_contribution / global_emissions_values.sum() * 100.
 > {: .solution}
 {: .challenge}
 
+## An Alternative
+
+The `RegularGridInterpolator` we used is pretty simplistic. If we want to be able to specify the number of
+nearest neighbors to use, for example, another approach would be to use a k-d tree
+for nearest-neighbor lookup. The SciPy Spatial data structures and algorithms module 
+([`scipi.spatial`](https://docs.scipy.org/doc/scipy/reference/spatial.html#module-scipy.spatial))
+provides a [`cKDTree`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.html#scipy.spatial.cKDTree)
+class for this purpose. 
+
+This class works differently from the interpolator in that it takes
+N data points of dimension M. The nearest neighbor lookup is then performed by passing the coordinates to
+the `query` method on the class, along with the number of neighbors. We can then sum up the values at each
+of these points in the data set to obtain the desired value.
+
+The first step is to construct the grid of points to use for the lookup. This needs to be an array of N
+points, where each point is one of our grid elements. For example:
+
+```python
+[(-89.5, -179.5), (-89.5, -179.0), (-89.5, -178.5), ...]
+```
+
+Fortunately we already have the latitude and longitude values, so we can convert them into this format in 
+two steps. The first step is to construct a mesh of all the possible values using the 
+NumPy [`meshgrid`](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.meshgrid.html) function:
+
+```python
+import numpy as np
+mx,my = np.meshgrid(emissions.latitude, emissions.longitude)
+```
+
+These meshes can then be used to construct the required array as follows:
+
+```python
+# construct array of pairs
+lat_lon_values = np.array([mx,my])
+
+# transpose rows and columns, then reshape
+lat_lon_values = lat_lon_values.T.reshape(-1, 2)
+```
+
+We can do this all in one statement:
+
+```python
+lat_lon_values = np.array(np.meshgrid(emissions.latitude, emissions.longitude)).T.reshape(-1, 2)
+```
+
+It's now possible to use `cKDTree` to look up the nearest neighbors as follows:
+
+```python
+from scipy.spatial import cKDTree
+
+kdtree = cKDTree(lat_lon_values)
+dist, index = kdtree.query(city_data[['Latitude','Longitude'], k=neighbors)
+```
+
+The `query` method returns two arrays: the distance to the nearest neighbors
+and the indices of the neighbors in the `lat_lon_values` array. We can use this index
+array to find the sum of the elements we're interested in:
+
+```python
+```
+
 > ## Challenge
->
-> The `RegularGridInterpolator` we used is pretty simplistic. Another approach is to use a k-d tree
-> for nearest-neighbor lookup. The SciPy Spatial data structures and algorithms module 
-> ([`scipi.spatial`](https://docs.scipy.org/doc/scipy/reference/spatial.html#module-scipy.spatial))
-> provides a [`cKDTree`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.html#scipy.spatial.cKDTree)
-> class for this purpose. This class works sligtly differently from the interpolator in that it takes
-> N data points of dimension M
+> 
+> Using the description above, modify the program so that it uses a k-d tree to determine
+> the nearest neighbors. For bonus points, use a command-line argument to select between
+> the two methods.
+{: .challenge}
+
 
 ## Some Things You Didn't Know About Importing
 

@@ -1,10 +1,10 @@
 ---
 title: Structuring the Data
-teaching: 30
+teaching: 20
 exercises: 30
 questions:
     - " How can I improve how the data is structured?
-    - " How do I access hierarchical data."
+    - " How do I access hierarchical data?"
     - " How can I combine Series and DataFrames?"
 objectives:
     - "See how Time Series can be used in MultiIndexes."
@@ -61,7 +61,7 @@ emissions = pd.DataFrame(total_emissions_per_month.reshape(-1),
                    index=emissions_index, columns=['Total Emissions Per Month'])
 ```
 
-Finally, we can insert the `Series` we created previously as a column (we need to create a new copy so that it has
+Finally, we can insert the `Series` we created previously as a column (we need to create a new `Series` so that it has
 the same index as the `DataFrame`):    
                    
 ```python

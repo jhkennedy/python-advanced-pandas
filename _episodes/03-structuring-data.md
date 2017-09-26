@@ -3,13 +3,17 @@ title: Structuring the Data
 teaching: 30
 exercises: 30
 questions:
-    - " How can I use NetCDF in Pandas?"
-    - " How should I structure my DataFrame?"
+    - " How can I improve how the data is structured?
+    - " How do I access hierarchical data."
+    - " How can I combine Series and DataFrames?"
 objectives:
+	- "See how Time Series can be used in MultiIndexes."
+	- "See how to access hierarchical data using a MultiIndex."
+	- "See how to create new columns from Series."
 ---
 
 We now have a Python program to load the NetCDF file and create a `Series` containing the emissions data. An example of what this
-script might look like is available [here](../code/load_data_02.py). 
+script might look like is available [here](../code/historical_co2_emissions_02.py). 
 
 In order for the data to be useful, we must now consider how we intend to use it. Recall that our goal is to calculate the 
 reduction in overall emissions if the top 50 cities are removed. We will do this by locating the cities in the CMIP5 dataset

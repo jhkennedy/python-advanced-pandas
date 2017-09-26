@@ -176,7 +176,7 @@ It's now possible to use `cKDTree` to look up the nearest neighbors as follows:
 from scipy.spatial import cKDTree
 
 kdtree = cKDTree(lat_lon_values)
-dist, index = kdtree.query(city_data[['Latitude','Longitude'], k=neighbors)
+query_dist, query_index = kdtree.query(city_data[['Latitude','Longitude'], k=neighbors)
 ```
 
 The `query` method returns two arrays: the distance to the nearest neighbors
@@ -184,6 +184,34 @@ and the indices of the neighbors in the `lat_lon_values` array. We can use this 
 array to find the sum of the elements we're interested in:
 
 ```python
+emissions_index = lat_lon_values[query_index]
+```
+
+One issues is that to use this as an index into the `DataFrame`, it must be a tuple
+containing a list of the latitude values and a list of the longitude values. Currently
+it looks like this:
+
+```python
+[[[  40.5  -74.5]
+  [  40.5  -73.5]
+  [  41.5  -74.5]
+  [  41.5  -73.5]]
+
+...
+```
+
+Whereas it needs to be like this:
+
+```python
+([40.5, 40.5, 41.5, 41.5, ...], [-74.5, -73.5, -74.5, -73.5, ...])
+```
+
+We need to do some manipulation to get it into the right format. Here is the code
+to do that and to calculate the sum:
+
+```python
+emissions_index = tuple(emissions_index.reshape(-1,2).T.tolist())
+total_calc_emissions = global_emissions.to_frame().loc[emissions_index, :].sum())
 ```
 
 > ## Challenge
@@ -192,7 +220,6 @@ array to find the sum of the elements we're interested in:
 > the nearest neighbors. For bonus points, use a command-line argument to select between
 > the two methods.
 {: .challenge}
-
 
 ## Some Things You Didn't Know About Importing
 

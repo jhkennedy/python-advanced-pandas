@@ -9,7 +9,7 @@ objectives:
 
 At the end of the last lesson our program was able to load the NetCDF file and create a 
 `DataFrame` containing the emissions and total emissions data. An example of what this
-program might look like is available [here](../code/load_data_03.py). 
+program might look like is available [here](../code/historical_co2_emissions_03.py). 
 
 Let's look at how we can turn what we've done so far into a reusable Python program. We
 ultimately want to be able to manipulate the emissions data in order to examine the impact that

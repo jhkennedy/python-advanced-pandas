@@ -42,7 +42,7 @@ class HistoricalCO2Emissions():
         # 
         # Compute the total emissions for each grid element
         #
-        total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
+        total_emissions_per_month = ff * area * seconds_in_month[:, None, None].values
 
         #
         # Create a MultiIndex for the emissions data using the DateTimeIndex and lat/lon values
@@ -52,7 +52,7 @@ class HistoricalCO2Emissions():
         #
         # Create a DataFrame for the fossil fuel and total emissions data 
         #
-        self.emissions = pd.DataFrame(total_emissions_per_month.values.reshape(-1), 
+        self.emissions = pd.DataFrame(total_emissions_per_month.reshape(-1), 
                                 index=emissions_index, columns=['Total Per Month'])
 
         #
@@ -73,17 +73,6 @@ class HistoricalCO2Emissions():
            
         return self.emissions.loc[(slice(start_month, end_month), slice(None), slice(None)), :]['Total Per Month']
         
-    def get_total_emissions_grid(self, year):
-        ''' Find the total emissions for a particular year for all latitudes and longitudes on a grid
-            Parameters:
-               year - Year to include in the results in the format 'YYYY'
-            Returns:
-                total emissions for a year at all latitudes and longitudes on a grid in gC/m2/s
-        '''
-        start_month = year + '-01'
-        end_month = year + '-12'
-        return self.get_total_monthly_emissions_grid(start_month, end_month).sum(level=[1,2])
-
 if __name__ == '__main__':
     df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
     print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data

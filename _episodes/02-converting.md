@@ -140,7 +140,8 @@ MultiIndex(levels=[[-86.5, -85.5, -84.5, -83.5, -82.5, -81.5], [-105.5, -104.5, 
 > Modify the `historical_co2_emissions.py` script as follows:
 > 
 > 1. Obtain NumPy arrays for the "Longitude", "Latitiude", "time_counter", "FF", and "AREA" netCDF variables and assign them to Python variables.
-> 2. Generate a `MultiIndex` from the product of the "time_counter", "Latitude", and "Longitude" arrays. Use 'Month', 'Latitude', and 'Longitude' as the level names.
+> 2. Create a `MultiIndex` called `emissions_index` from the product of the "time_counter", "Latitude", and "Longitude" arrays. Use 'Month', 'Latitude', 
+> and 'Longitude' as the level names.
 {: .challenge}
 
 ## Wrapping the Data
@@ -236,7 +237,7 @@ print(first_quarter_earnings)
 > ## Challenge
 >
 > Returning to our CMIP5 global emissions data, it should now be possible to create a `Series` using the NumPy array version of the 'FF' variable. 
-> Modify the `historical_co2_emissions.py` script so that it creates a `Series` called `ff_pd` using the `MultiIndex` you created previously.
+> Modify the `historical_co2_emissions.py` script so that it creates a `Series` called `ff_pd` using the `emissions_index` you created previously.
 {: .challenge} 
 
 

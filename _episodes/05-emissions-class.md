@@ -85,10 +85,6 @@ The new code looks like this:
 Our constructor should also create the `DataFrame` since this is ultimately what we'll be referring to
 from our other methods. 
 
-One change that might make the `DataFrame` more useful is if the index used actual dates rather than the
-`time_counter` values from the dataset. This can be accomplised by simply re-arranging when we create
-the `MultiIndex` and using the `DateTimeIndex` we created for `months` instead of the `time_counter` values.
-
 Here is the extra code we'll add to the `__init__` method. Notice that we've had `self.` to some variables
 as these are now instance attributes:
 

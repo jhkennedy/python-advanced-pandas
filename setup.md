@@ -7,6 +7,15 @@ permalink: /setup/
 > ## Data
 {: .prereq}
 
+For this lesson, we will use a number of different data sets. Download these files to your computer and put them in a location that you can find again later. 
+(Some browsers may require you to right click on the link to specify the download location.)
+
+- [sresa1b_ncar_ccsm3-example.nc](../data/sresa1b_ncar_ccsm3-example.nc)
+
+Note: this data set is 1.6GB!
+
+- [CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc](../data/CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc)
+
 > ## Software
 {: .prereq}
 For this workshop we use Python version 3.x.
@@ -15,9 +24,10 @@ For this workshop we use Python version 3.x.
 
 * [Pandas](http://pandas.pydata.org/)
 * [Jupyter notebook](http://jupyter.org/)
-* [Numpy](http://www.numpy.org/)
+* [NumPy](http://www.numpy.org/)
 * [Matplotlib](http://matplotlib.org/)
-* [ggplot](http://ggplot.yhathq.com/)
+* [netCDF4](http://unidata.github.io/netcdf4-python/)
+* [SciPy](https://www.scipy.org/)
 
 ## Install the workshop packages
 
@@ -41,27 +51,11 @@ sh Anaconda3-4.4.0-MacOSX-x86_64.sh
 
 It is usually necessary to restart your shell once you've installed Anaconda.
 
-### ggplot installation
+### Editing Python Scripts
 
-Run the command:
+In addition to the Python packages, you will also need access to a text editor
+or a development environment for Python scripts.
 
-```
-conda install ggplot
-```
-
-In some cases, installing `ggplot` from conda may fail with an error like:
-
-```
-UnsatisfiableError:The following specifications were found to be in conflict:
-      - ggplot -> python3.4*
-      - python 3.6*
-```
-
-In that case, try installing `ggplot` with Anaconda `pip` by running this command in your terminal:
-
-```
-pip install -U ggplot
-```
 
 ## Launch a Jupyter notebook
 

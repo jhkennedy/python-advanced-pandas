@@ -9,8 +9,8 @@ objectives:
 ---
 
 In the last module, we wrote a simple Python program to load the NetCDF data and print some useful information about it. An example of what this
-script might look like is available [here](../code/load_data_01.py). We also saw that the data is accessible as NumPy arrays. However, it would be much more useful
-if we could store the data as Pandas DataFrames so that we get the benefit of Pandas features for manipulating the data.
+script might look like is available [here](../code/historical_co2_emissions.py_01.py). We also saw that the data is accessible as NumPy arrays. 
+However, it would be much more useful if we could store the data as Pandas DataFrames so that we get the benefit of Pandas features for manipulating the data.
 
 One problem we have with the emissions data is that it is stored as a 3-dimensional array, a "time" dimension containing the month since
 1751, and latitude and logitude dimensions. How do we represent this as a DataFrame, which are inherently 2-dimensional structures?

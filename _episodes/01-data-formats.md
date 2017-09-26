@@ -1,7 +1,7 @@
 ---
 title: NetCDF Primer
 teaching: 30
-exercises: 30
+exercises: 10
 questions:
     - " How can I import data using Pandas?"
     - " What is NetCDF?"
@@ -18,15 +18,15 @@ Research (UCAR) Office of Programs (UOP). Unidata is funded primarily by the Nat
 
 Pandas does not have native support for reading/writing NetCDF, however there are a number of additional packages that provide this capability:
 
-- netcdf4-python: a Python interface to the netCDF library
-- PyNIO: a Python package that allows read and/or write access to a variety of data formats using an interface modeled on netCDF
+- netcdf4-python: a Python interface to the NetCDF library
+- PyNIO: a Python package that allows read and/or write access to a variety of data formats using an interface modeled on NetCDF
 - xarray: provides N-dimensional variants of the core pandas data structures
 
 ## NetCDF Data Model
 
 The "classic" NetCDF data model consists of the following components:
 
-- Variables: N-dimensional arrays of data. Variables in netCDF files can be one of six types (char, byte, short, int, float, double).
+- Variables: N-dimensional arrays of data. Variables in NetCDF files can be one of six types (char, byte, short, int, float, double).
 - Dimensions: These describe the axes of the data arrays. A dimension has a name and a length. An unlimited dimension has a length that can be expanded at any time, as more data are written to it. NetCDF files can contain at most one unlimited dimension.
 - Attributes: These annotate variables or files with small notes or supplementary metadata. Attributes are always scalar values or 1D arrays, which can be associated with either a variable or the file as a whole. Although there is no enforced limit, the user is expected to keep attributes small.
 
@@ -41,13 +41,13 @@ NetCDF can be used to store many kinds of data, but it was originally developed 
 
 NetCDF views the world of scientific data in the same way that an atmospheric scientist might: as sets of related arrays. There are various physical quantities (such as pressure and temperature) located at points at a particular latitude, longitude, vertical level, and time. A scientist might also like to store supporting information, such as the units, or some information about how the data were produced.
 
-The axis information (latitude, longitude, level, and time) would be stored as netCDF dimensions. Dimensions have a length and a name.
+The axis information (latitude, longitude, level, and time) would be stored as NetCDF dimensions. Dimensions have a length and a name.
 
-The physical quantities (pressure, temperature) would be stored as netCDF variables. Variables are N-dimensional arrays of data, with a name and an associated set of netCDF dimensions.
+The physical quantities (pressure, temperature) would be stored as NetCDF variables. Variables are N-dimensional arrays of data, with a name and an associated set of NetCDF dimensions.
 
 It is also customary to add one variable for each dimension, to hold the values along that axis. These variables are call “coordinate variables.” The latitude coordinate variable would be a one-dimensional variable (with latitude as its dimension), and it would hold the latitude values at each point along the axis.
 
-The additional bits of metadata would be stored as netCDF attributes. Attributes are always single values or one-dimensional arrays. (This works out well for a string, which is a one-dimensional array of ASCII characters.)
+The additional bits of metadata would be stored as NetCDF attributes. Attributes are always single values or one-dimensional arrays. (This works out well for a string, which is a one-dimensional array of ASCII characters.)
 
 ![Dataset Diagram](../fig/01_dataset_diagram.png)
 
@@ -57,7 +57,7 @@ Although there are a number of packages for reading NetCDF files, we will just b
 
 ### Opening a file
 
-To open a netCDF file from python, you simply call the Dataset() constructor as follows (a sample dataset is available [here](../data/sresa1b_ncar_ccsm3-example.nc):
+To open a NetCDF file from Python, you simply call the Dataset() constructor as follows (a sample data set is available [here](../data/sresa1b_ncar_ccsm3-example.nc)):
 
 ```python
 from netCDF4 import Dataset 
@@ -67,10 +67,9 @@ print(dataset.file_format)
 
 ### Working with "Classic" NetCDF
 
-The netCDF4 module can read in any netCDF format. This tutorial will focus exclusively on the NetCDF-
-"classic" data model using: NETCDF4_CLASSIC
-
-The "classic" data model is made up of dimensions, variables and attributes only.
+The netCDF4 module can read in any NetCDF format. This tutorial will focus exclusively on the NetCDF-
+"classic" data model, which is contains only dimensions, variables and attributes only. When you
+print out the `file_format` attribute, you can see that the file is in `NETCDF3_CLASSIC` mode.
 
 ### Interrogating Dimensions
 
@@ -95,24 +94,24 @@ You can interrogate variables using simple dictionary calls:
 ```python
 for key in dataset.variables.keys():
   var = dataset.variables[key]
-  print("name =", key)
+  print("name=" + var.name + ", shape=" + str(var.shape))
 ```
 
 This would result in the output:
 
 ```
-name = area
-name = lat
-name = lat_bnds
-name = lon
-name = lon_bnds
-name = msk_rgn
-name = plev
-name = pr
-name = tas
-name = time
-name = time_bnds
-name = ua
+name=area, shape=(128, 256)
+name=lat, shape=(128,)
+name=lat_bnds, shape=(128, 2)
+name=lon, shape=(256,)
+name=lon_bnds, shape=(256, 2)
+name=msk_rgn, shape=(128, 256)
+name=plev, shape=(17,)
+name=pr, shape=(1, 128, 256)
+name=tas, shape=(1, 128, 256)
+name=time, shape=(1,)
+name=time_bnds, shape=(1, 2)
+name=ua, shape=(1, 17, 128, 256)
 ```
 
 Notice that you can access a variable by its key:
@@ -138,7 +137,7 @@ Which would result in:
 
 ### Global Attributes
 
-Global attributes are available as attributes of the python dataset instance:
+Global attributes are available as attributes of the `Dataset` instance (more about classes and attributes later):
 
 ```python
 # Find all NetCDF global attributes
@@ -158,9 +157,15 @@ cmd_ln = bds -x 256 -y 128 -m 23 -o /data/zender/data/dst_T85.nc
 ...
 ```
 
+if you know the name of an attribut, you can access it directly:
+
+```python
+print(dataset.title)
+```
+
 ### Variable Attributes
 
-Variable attributes are available as attributes of the Python variable instance:
+Variable attributes are available as attributes of the `Variable` instance:
 
 ```python
 var = dataset.variables['pr']
@@ -190,17 +195,17 @@ cell_method = time: mean
 ```
 
 > ## Challenge
-> Write a Python script to open the CIMP5 global emissions dataset. Call the script `load_data.py`. Use your knowledge of netCDF4 to answer
+> Write a Python script to open the CIMP5 global emissions data set. Call the script `historical_co2_emissions.py`. Use your knowledge of netCDF4 to answer
 > the following questions:
 > 
-> 1. How many dimensions does the dataset contain? What are the sizes of the dimensions?
-> 2. How many variables does the dataset contain, and what are their names and dimensions?
+> 1. How many dimensions does the data set contain? What are the sizes of the dimensions?
+> 2. How many variables does the data set contain, and what are their names and dimensions?
 > 3. What do you think the purpose of the 'FF' variable is?
 {: .challenge}
 
 ## Accessing Data
 
-Once a NetCDF dataset is loaded, it is possible to access the data as if it was a NumPy array using array slice notation. We can use the `dimensions` attribute to see how the data is stored:
+Once a NetCDF data set is loaded, it is possible to access the data as if it was a NumPy array using array slice notation. We can use the `dimensions` attribute to see how the data is stored:
 
 
 ```python

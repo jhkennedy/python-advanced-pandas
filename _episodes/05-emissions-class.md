@@ -1,7 +1,7 @@
 ---
 title: Creating a Class
-teaching: 30
-exercises: 30
+teaching: 20
+exercises: 15
 questions:
     - " How can I use a class to make code reusable?"
     - " What do I need to do to turn my code into a class?"
@@ -106,7 +106,7 @@ as these are now instance attributes:
         # 
         # Compute the total emissions for each grid element
         #
-        total_emissions_per_month = ff * area * seconds_in_month[:, None, None]
+        total_emissions_per_month = ff * area * seconds_in_month[:, None, None].values
 
         #
         # Create a MultiIndex for the emissions data using the DateTimeIndex and lat/lon values
@@ -116,7 +116,7 @@ as these are now instance attributes:
         #
         # Create a DataFrame for the fossil fuel and total emissions data 
         #
-        self.emissions = pd.DataFrame(total_emissions_per_month.values.reshape(-1), 
+        self.emissions = pd.DataFrame(total_emissions_per_month.reshape(-1), 
                                 index=emissions_index, columns=['Total Per Month'])
 
         #
@@ -144,7 +144,7 @@ of data. We can replace the `return None` line with the following:
 > Why can't we just use the following?
 >
 > ```python
->         return self.emissions.loc[start_month:end_month:]['Total Per Month']
+>         return self.emissions.loc[start_month:end_month]['Total Per Month']
 > ```
 >
 > It turns out that if we were using a single level index rather than a hierarchical index, we would be
@@ -154,7 +154,7 @@ of data. We can replace the `return None` line with the following:
 > ## Challenge
 > 
 > So far we've described all the pieces of the class that required. Your job is now to put all this
-> into the `load_data.py` program and make sure that it works.
+> into the `historical_co2_emissions.py` program and make sure that it works.
 >
 > Once you have the class defined correctly, you can test out the program by adding the following
 > code to the end. Run it and check that you're getting the expected results.
@@ -164,6 +164,7 @@ of data. We can replace the `return None` line with the following:
 >     df = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
 >     print(df.get_total_monthly_emissions_grid('2001-06', '2002-06')) # One year's data
 >     print(df.get_total_monthly_emissions_grid('1999-04')) # One month's data
+> ```
 {: .challenge}
 
       

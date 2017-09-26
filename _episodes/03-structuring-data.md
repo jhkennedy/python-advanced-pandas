@@ -152,7 +152,7 @@ sometimes lead to ambiguities with `MultiIndex`). This is straightforward for a 
 
 The simplest case is just to pass a value for each level of the index. For example `emissions.loc['2007-12-31']` would return emissions for all 
 latitude and longitudes for the last month in 2007, or `emissions.loc['2007-12-31', 89.5, 179.5]` would return the emissions at the North Pole for that 
-month (zero hopefully!) An alternative to the latter would be `emissions.loc[('2007-12-31', 89.5, 179.5), :]`
+month (zero hopefully!) An alternative to the latter would be `emissions.loc[('2007-12-31', 89.5, 179.5), :]` where we use a tuple for the index levels.
 
 It's also possible to use slicing with a range of values, such as `emissions.loc['2007-10-31':'2007-12-31']` or 
 `emissions.loc[('2007-10-31', 89.5, 179.5):('2007-12-31', 89.5, 179.5), :]`.

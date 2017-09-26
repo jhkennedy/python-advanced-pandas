@@ -8,7 +8,7 @@ objectives:
 ---
 
 At the end of the last lesson our program provided a class for managing the emissions data. 
-An example of what this program might look like is available [here](../code/load_data_04.py). 
+An example of what this program might look like is available [here](../code/historical_co2_emissions_04.py). 
 
 The purpose of creating the `HistoricalCO2Emissions` class was so that we could re-use it for
 our analysis task. So let's see how to do that now. We're going to create a new program
@@ -75,12 +75,12 @@ if __name__ == "__main__":
     emissions = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
 	
     # Find the global emissions for the given year
-    global_emissions = emissions.get_total_emissions_grid(year)
+    monthly_global_emissions = emissions.get_total_monthly_emissions_grid(year)
     
-    # convert to MtC02e
-    global_emissions *= 1.0e-12
+    # Sum and convert to MtC02e
+    global_emissions = montly_global_emissions.sum(level[1,2]) * 1.0e-12
     
-    # convert to 2-D array of values
+    # Convert to 2-D NumPy array
     global_emissions_values = global_emissions.unstack(level=1).values 
 
     # Interpolate the emissions for the city locations

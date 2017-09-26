@@ -1,6 +1,6 @@
 ---
 title: Using NetCDF with Pandas
-teaching: 30
+teaching: 20
 exercises: 30
 questions:
     - " How can I use NetCDF in Pandas?"
@@ -9,7 +9,7 @@ objectives:
 ---
 
 In the last module, we wrote a simple Python program to load the NetCDF data and print some useful information about it. An example of what this
-script might look like is available [here](../code/historical_co2_emissions.py_01.py). We also saw that the data is accessible as NumPy arrays. 
+script might look like is available [here](../code/historical_co2_emissions_01.py). We also saw that the data is accessible as NumPy arrays. 
 However, it would be much more useful if we could store the data as Pandas DataFrames so that we get the benefit of Pandas features for manipulating the data.
 
 One problem we have with the emissions data is that it is stored as a 3-dimensional array, a "time" dimension containing the month since
@@ -114,7 +114,7 @@ very tedious when there are large numbers of labels at each level, or multiple l
 use a package such as [`itertools`](https://docs.python.org/3/library/itertools.html), which provides methods for generating combinations of elements from lists.
 
 Another approach is to use the `MultiIndex.from_product()` method which will generate an index by combining every element from a list of
-two or more iterables. For example, suppose we wanted to create a two-level index where the first labels are taken from a NumPy array. 
+two or more iterables. For example, suppose we wanted to create a two-level index where the labels are taken from NumPy arrays. 
 We could do this in one statement as follows:
 
 ```python
@@ -134,19 +134,21 @@ MultiIndex(levels=[[-86.5, -85.5, -84.5, -83.5, -82.5, -81.5], [-105.5, -104.5, 
 
 > ## Challenge
 >
-> In the case of our CIMP5 global emissions data, we would like to create a `MultiIndex` that has three levels, one for each dimension of the array, namely
-> "time_counter", "latitude", and "longitude". We can obtain the values for the labels from the corresponding variables in the dataset.
+> In the case of our CMIP5 global emissions data, we would like to create a `MultiIndex` that has three levels, one for each dimension of the variable, namely
+> "time_counter", "latitude", and "longitude". We can obtain the values for the labels from the corresponding variables in the data set.
 >
-> Modify the `load_data.py` script as follows:
+> Modify the `historical_co2_emissions.py` script as follows:
 > 
 > 1. Obtain NumPy arrays for the "Longitude", "Latitiude", "time_counter", "FF", and "AREA" netCDF variables and assign them to Python variables.
-> 2. Generate a `MultiIndex` from the product of the "time_counter", "Latitude", and "Longitude" variables. Use 'Month', 'Latitude', and 'Longitude' as the level names.
+> 2. Generate a `MultiIndex` from the product of the "time_counter", "Latitude", and "Longitude" arrays. Use 'Month', 'Latitude', and 'Longitude' as the level names.
 {: .challenge}
 
 ## Wrapping the Data
 
 Although a hierarchical index allows us to access data in a `Series` or `DataFrame` as if it was multi-dimensional, we still have to create them using 
-data that is one-dimensional. Suppose that the quarterly earnings data was actually in a 2-dimensional array, rather than a one-dimensional array and we
+data that is one-dimensional. 
+
+Suppose that the quarterly earnings data was actually in a 2-dimensional array, rather than a one-dimensional array and we
 try to create the `Series` the same way as before:
 
 ```python
@@ -233,6 +235,120 @@ print(first_quarter_earnings)
 
 > ## Challenge
 >
-> Returning to our CIMP5 global emissions data, it should now be possible to create a `Series` for the 'FF' variable. Modify the `load_data.py` 
-> script so that it creates a `Series` called `ff_pd` using the `MultiIndex` you created previously.
+> Returning to our CMIP5 global emissions data, it should now be possible to create a `Series` using the NumPy array version of the 'FF' variable. 
+> Modify the `historical_co2_emissions.py` script so that it creates a `Series` called `ff_pd` using the `MultiIndex` you created previously.
 {: .challenge} 
+
+
+## Working With Other Data Formats in Pandas
+
+Pandas provides a variety of tools for reading and writing textual and binary file formats. For textual formats, the most common of these are:
+
+<table border="1">
+<tbody>
+<tr>
+<td>Format</td>
+<td>Example</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_csv(filename, delimiter, header, ...)
+</pre></td>
+</tr>
+<tr>
+<td><a href="http://www.json.org/">JSON</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_json('https://api.github.com/repos/pydata/pandas/issues?per_page=5')
+</pre></td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/HTML">HTML</a></td>
+<td><pre>
+import pandas as pd
+df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
+</pre></td>
+</tr>
+</tbody>
+</table>
+
+Pandas also supports reading and writing a variety of binary data formats, including:
+
+<table border="1">
+<tbody>
+<tr>
+<td>Format</td>
+<td>Example</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Microsoft_Excel">Excel</a></td>
+<td>
+<pre>import pandas as pd
+df = pd.DataFrame({'a':[1,2,3,4], 'b':[5,6,7,8]}, index=pd.MultiIndex.from_product([['a','b'],['c','d']]))
+df.to_excel('df.excel.xlsx')
+xlsx = pd.ExcelFile('df.xlsx')
+pd.read_excel(xlsx, 'Sheet1')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://support.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
+df.to_hdf('df.h5','table',append=True)
+pd.read_hdf('df.h5', 'table', where = ['index>2'])
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://github.com/wesm/feather">Feather</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
+df.to_feather('df.feather')
+pd.read_feather('df.feather')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="http://msgpack.org/index.html">Msgpack</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
+df.to_msgpack('df.msg')
+pd.read_msgpack('df.msg')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Stata">Stata</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.randn(10, 2), columns=list('AB'))
+df.to_stata('df.dta')
+pd.read_stata('df.dta')
+</pre>
+</td>
+</tr>
+<tr>
+<td><a href="https://docs.python.org/3/library/pickle.html">Pickle</a></td>
+<td>
+<pre>
+import pandas as pd
+df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
+df.to_pickle("df.pkl.gz", compression="gzip")
+pd.read_pickle("df.pkl.gz", compression="gzip")
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+Pandas also provides tools for managing SAS, SQL, and Google BigQuery formats. Please refer to the Pandas documentation for more information.

@@ -22,8 +22,10 @@ accurate, it might provide a ball park figure that indicates if the approach wou
 
 We'll start with the following two data sets:
 
-- The CIMP5 global emissions dataset which provides gridded emissions for all latitute/logitudes from 1751 - 2007
-- The latitude/logitude of the 50 largest cities and their associated greenhouse gas emissions (thanks Melissa!)
+- The CMIP5 global emissions dataset which provides gridded emissions for all latitute/logitudes from 1751 - 2007. This data set is from historical runs of the 
+Coupled Model Intercomparison Project, Phase 5 (CMIP5) Earth Systems Models (ESMs). The historical fossil fuel CO2 emissions account for solid fuels, liquid fuels, gaseous fuels, gas flaring, and cement production. The data are monthly gridded emissions (gC/m-2/s).
+- The latitude/logitude of the 50 largest cities and their associated greenhouse gas emissions. This data was compiled by Melissa Allen (thanks Melissa!)
+
 
 > ## Getting Started
 >

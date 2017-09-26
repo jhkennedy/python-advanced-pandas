@@ -1,6 +1,6 @@
 ---
 title: NetCDF Primer
-teaching: 30
+teaching: 20
 exercises: 10
 questions:
     - " How can I import data using Pandas?"
@@ -195,7 +195,7 @@ cell_method = time: mean
 ```
 
 > ## Challenge
-> Write a Python script to open the CIMP5 global emissions data set. Call the script `historical_co2_emissions.py`. Use your knowledge of netCDF4 to answer
+> Write a Python script to open the CMIP5 global emissions data set. Call the script `historical_co2_emissions.py`. Use your knowledge of netCDF4 to answer
 > the following questions:
 > 
 > 1. How many dimensions does the data set contain? What are the sizes of the dimensions?
@@ -241,117 +241,3 @@ We can use the normal NumPy operations on the resulting array:
 ```python
 print(pr_np.mean(axis=1))
 ```
-
-## Working With Other Data Formats in Pandas
-
-Pandas provides a variety of tools for reading and writing textual and binary file formats. For textual formats, the most common of these are:
-
-<table border="1">
-<tbody>
-<tr>
-<td>Format</td>
-<td>Example</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_csv(filename, delimiter, header, ...)
-</pre></td>
-</tr>
-<tr>
-<td><a href="http://www.json.org/">JSON</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_json('https://api.github.com/repos/pydata/pandas/issues?per_page=5')
-</pre></td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/HTML">HTML</a></td>
-<td><pre>
-import pandas as pd
-df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
-</pre></td>
-</tr>
-</tbody>
-</table>
-
-Pandas also supports reading and writing a variety of binary data formats, including:
-
-<table border="1">
-<tbody>
-<tr>
-<td>Format</td>
-<td>Example</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Microsoft_Excel">Excel</a></td>
-<td>
-<pre>import pandas as pd
-df = pd.DataFrame({'a':[1,2,3,4], 'b':[5,6,7,8]}, index=pd.MultiIndex.from_product([['a','b'],['c','d']]))
-df.to_excel('df.excel.xlsx')
-xlsx = pd.ExcelFile('df.xlsx')
-pd.read_excel(xlsx, 'Sheet1')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://support.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
-df.to_hdf('df.h5','table',append=True)
-pd.read_hdf('df.h5', 'table', where = ['index>2'])
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://github.com/wesm/feather">Feather</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(dict(A=list(range(5)), B=list(range(5))))
-df.to_feather('df.feather')
-pd.read_feather('df.feather')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="http://msgpack.org/index.html">Msgpack</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
-df.to_msgpack('df.msg')
-pd.read_msgpack('df.msg')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://en.wikipedia.org/wiki/Stata">Stata</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.randn(10, 2), columns=list('AB'))
-df.to_stata('df.dta')
-pd.read_stata('df.dta')
-</pre>
-</td>
-</tr>
-<tr>
-<td><a href="https://docs.python.org/3/library/pickle.html">Pickle</a></td>
-<td>
-<pre>
-import pandas as pd
-df = pd.DataFrame(np.random.rand(5,2),columns=list('AB'))
-df.to_pickle("df.pkl.gz", compression="gzip")
-pd.read_pickle("df.pkl.gz", compression="gzip")
-</pre>
-</td>
-</tr>
-</tbody>
-</table>
-
-Pandas also provides tools for managing SAS, SQL, and Google BigQuery formats. Please refer to the Pandas documentation for more information.
-

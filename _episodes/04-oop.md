@@ -347,3 +347,10 @@ crash!
 Python defines methods for all the normal operators, including `__add__`, `__sub__`, `__mul__`, `__div__`, as well
 as logical operators `__lt__`, `__gt__`, etc., and others. See the [Standard operators as functions](https://docs.python.org/3/library/operator.html)
 chapter of the Python documentation for more details.
+
+> ## Challenge
+>
+> Overload the `-` operator so that it returns a string comparing the two bikes. For example, it might
+> compare which gear each bike currently has selected.
+>
+{: .challenge}

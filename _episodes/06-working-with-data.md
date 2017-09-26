@@ -3,7 +3,7 @@ title: Analyzing the Data
 teaching: 30
 exercises: 30
 questions:
-    - " How can I use classes to make code reusable?"
+    - " How can I use a class to make code reusable?"
 objectives:
 ---
 

@@ -3,8 +3,12 @@ title: Creating a Class
 teaching: 30
 exercises: 30
 questions:
-    - " How can I use classes to make code reusable?"
+    - " How can I use a class to make code reusable?"
+    - " What do I need to do to turn my code into a class?"
 objectives:
+    - "See how to restructured existing code into a class."
+    - "See how to make use of object oriented programming principles."
+    - "See how to improve code reuse."
 ---
 
 At the end of the last lesson our program was able to load the NetCDF file and create a 

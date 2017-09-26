@@ -87,7 +87,7 @@ class bike():
     number_of_gears = 21
 
     def select_gear(self, gear_number):
-        if gear_number >= 1 and gear_number <= self.number_of_gears:
+        if gear_number >= 1 and gear_number <= number_of_gears:
             self.current_gear = gear_number
 ```
 
@@ -197,7 +197,7 @@ By adding a default value to the argument, we have also made it possible to crea
 to specify the number of gears if desired:
 
 ```python
-my_bike = bike() # mine has 15 gears
+my_bike = bike() # mine has 21 gears
 print("my bike has", my_bike.number_of_gears, "gears")
 your_bike = bike(10) # yours is a road bike
 print("your bike has", your_bike.number_of_gears, "gears")
@@ -205,6 +205,28 @@ print("your bike has", your_bike.number_of_gears, "gears")
 
 Notice that the `number_of_gears` attribute is now an *instance* attribute, since bikes can have different numbers
 of gears.
+
+> ## Challenge
+>
+> Add a boolean parameter to the constructor to specify if the bike has front and rear gears. You'll
+> need to add a new instance attribute to store the value. Note that only the last parameter may be
+> optional.
+>
+> > ## Solution
+> > 
+> > ```python
+> > class bike():
+> >     def __init__(self, front_and_rear_gears, gears=21):
+> >         self.has_front_and_rear_gears = front_and_rear_gears
+> >         self.number_of_gears = gears
+> > 
+> >     def select_gear(self, gear_number):
+> >         if gear_number >= 1 and gear_number <= self.number_of_gears:
+> >             self.current_gear = gear_number
+> > ```
+> {: .solution}
+{: .challenge}
+
 
 ### Inheritance
 
@@ -245,6 +267,7 @@ of gears is set for instances of road bikes.
 > > 
 > > 1. The `mountain_bike` class requires an argument but the `road_bike` does not.
 > > 2. The call to `check_for_rear_suspension()` on the `road_bike` instance produces the error:
+> >
 > > ```python
 > > ---------------------------------------------------------------------------
 > > AttributeError                            Traceback (most recent call last)

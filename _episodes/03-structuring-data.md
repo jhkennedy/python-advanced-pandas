@@ -3,7 +3,7 @@ title: Structuring the Data
 teaching: 20
 exercises: 30
 questions:
-    - " How can I improve how the data is structured?
+    - " How can I improve how the data is structured?"
     - " How do I access hierarchical data?"
     - " How can I combine Series and DataFrames?"
 objectives:

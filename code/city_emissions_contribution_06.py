@@ -10,7 +10,15 @@ if __name__ == "__main__":
     
     # Load global emissions data
     emissions = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
-    global_emissions_values = emissions.get_total_emissions_Mt(year)
+	
+    # Find the global emissions for the given year
+    global_emissions = emissions.get_total_emissions_grid(year)
+    
+    # convert to MtC02e
+    global_emissions *= 1.0e-12
+    
+    # convert to 2-D array of values
+    global_emissions_values = global_emissions.unstack(level=1).values 
 
     # Interpolate the emissions for the city locations
     emission_interpolator = RegularGridInterpolator([emissions.latitude, emissions.longitude], global_emissions_values, method="nearest")

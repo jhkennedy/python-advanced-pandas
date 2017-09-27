@@ -8,7 +8,7 @@ objectives:
 ---
 
 At the end of the last lesson our program provided a class for managing the emissions data. 
-An example of what this program might look like is available [here](../code/historical_co2_emissions_04.py). 
+An example of what this program might look like is available [here](../code/historical_co2_emissions_05.py). 
 
 The purpose of creating the `HistoricalCO2Emissions` class was so that we could re-use it for
 our analysis task. So let's see how to do that now. We're going to create a new program
@@ -27,8 +27,8 @@ City,Country,Latitude,Longitude,Population (Millions),Total GHG (MtCO2e),Total G
 
 > ## Challenge
 >
-> Write a program called `global_emissions_cities.py` that loads the city emissions data
-> from `CityCO2Emissions.csv` into a Pands `DataFrame` and prints it out.
+> Write a program called `city_emissions_contribution.py` that loads the city emissions data
+> from `CityCO2Emissions.csv` into a Pandas `DataFrame` and prints it out.
 {: .challenge}
 
 ## Finding the Cities
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     monthly_global_emissions = emissions.get_total_monthly_emissions_grid(year)
     
     # Sum and convert to MtC02e
-    global_emissions = montly_global_emissions.sum(level[1,2]) * 1.0e-12
+    global_emissions = monthly_global_emissions.sum(level=[1,2]) * 1.0e-12
     
     # Convert to 2-D NumPy array
     global_emissions_values = global_emissions.unstack(level=1).values 

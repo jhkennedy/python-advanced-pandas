@@ -11,6 +11,9 @@ maintainers:
 This is an advanced Pandas lesson designed for participants with basic Python programming experience and who have completed the Introduction to Pandas lesson. These 
 lessons can be taught in a day (~ 6 hours). 
 
+The concept for this lesson and the original Python scripts were provided by Joseph Kennedy. The city emissions data was compiled by Melissa Allen. We'd like to 
+acknowledge both Joseph's and Melissa's contribution to making this training happen! 
+
 ## Background
 
 You are working on a project to determine if the Paris Accord greenhouse gas reduction targets could be met by just the world's largest cities, because these are the areas with

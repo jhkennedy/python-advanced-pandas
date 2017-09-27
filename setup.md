@@ -54,8 +54,15 @@ It is usually necessary to restart your shell once you've installed Anaconda.
 ### Editing Python Scripts
 
 In addition to the Python packages, you will also need access to a text editor
-or a development environment for Python scripts.
+or a development environment for Python scripts. Nano is a good option for
+anyone not used to text editing. See these 
+[instructions](https://ornl-training.github.io/syllabus/setup/#a-text-editor) for how to install
+Nano on Windows/Mac/Linux. If you have another editor you'd rather use
+that is fine also.
 
+Another alternative is to use a Python development environment such as
+PyDev. Here are [instructions](https://ornl-training.github.io/syllabus/setup/#pydev) 
+on how to install PyDev, but it's use is beyond the scope of this tutorial.
 
 ## Launch a Jupyter notebook
 

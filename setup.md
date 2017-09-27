@@ -14,7 +14,7 @@ For this lesson, we will use a number of different data sets. Download these fil
 
 Note: this data set is 1.6GB!
 
-- [CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc](../data/CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc)
+- [CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc](http://eclipseice.ornl.gov/downloads/data_analysis/CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc)
 
 > ## Software
 {: .prereq}

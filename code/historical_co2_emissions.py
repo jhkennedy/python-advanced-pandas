@@ -81,7 +81,7 @@ class HistoricalCO2Emissions():
                 total emissions in MtCO2 as a NumPy array
         '''
         # Find the global emissions for the given year
-        monthly_global_emissions = emissions.get_total_monthly_emissions_grid(year)
+        monthly_global_emissions = self.get_total_monthly_emissions_grid(year)
         
         # Sum and convert to MtC02
         global_emissions = monthly_global_emissions.sum(level=[1,2]) * 1.0e-12

@@ -11,6 +11,7 @@ For this lesson, we will use a number of different data sets. Download these fil
 (Some browsers may require you to right click on the link to specify the download location.)
 
 - [sresa1b_ncar_ccsm3-example.nc](../data/sresa1b_ncar_ccsm3-example.nc)
+- [CityCO2Emissions.csv](../data/CityCO2Emissions.csv)
 
 Note: this data set is 1.6GB!
 

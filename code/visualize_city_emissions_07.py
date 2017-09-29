@@ -22,7 +22,7 @@ if __name__ == '__main__':
     emissions = HistoricalCO2Emissions('CMIP5_gridcar_CO2_emissions_fossil_fuel_Andres_1751-2007_monthly_SC_mask11.nc')
 	
     # Find the global emissions for the given year
-    global_emissions = emissions.get_total_emissions_grid(year)
+    global_emissions = emissions.get_total_emissions_grid(year).sum(level=[1,2])
     
     # convert to MtC02e
     global_emissions *= 1.0e-12
